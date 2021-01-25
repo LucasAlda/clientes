@@ -1,0 +1,24 @@
+.template {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #272c36;
+}
+
+.template h1 {
+  color: #fff;
+  font-size: 30px;
+}
+
+.template h2 {
+  color: #fff;
+  font-size: 18px;
+  margin: 0;
+}
+
+.template h2 a {
+  color: #fff;
+}
