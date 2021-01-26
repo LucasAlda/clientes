@@ -7,7 +7,7 @@ const Template = (props) => {
       <h1>React App Template</h1>
       <h2>
         By{" "}
-        <a href="https://github.com/LucasAlda" target="_blank">
+        <a href="https://github.com/LucasAlda" rel="noreferrer" target="_blank">
           LucasAlda
         </a>
       </h2>

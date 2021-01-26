@@ -1,0 +1,32 @@
+.principal h3 {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  padding: 30px 50px;
+  color: #fafafa;
+}
+
+.principal h3 span {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.principal h3 select {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+}
+
+.principal .select-category {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 5px 0px;
+  cursor: pointer;
+  transition: border 200ms ease-in-out;
+}
+
+.principal .select-category svg {
+  position: relative;
+  top: 3px;
+}

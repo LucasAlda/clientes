@@ -1,0 +1,26 @@
+.tabs {
+  position: relative;
+  display: inline-flex;
+  z-index: 1;
+  padding-left: 0;
+  margin: 0;
+}
+
+.tabs li {
+  display: block;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 6px 6px 0 0;
+  font-size: 13px;
+  margin-left: 10px;
+}
+
+.tabs.tabs-folder li {
+  color: #575757;
+  width: 100px;
+  background-color: #d7dade;
+}
+
+.tabs.tabs-folder li.active {
+  background-color: #fff;
+}

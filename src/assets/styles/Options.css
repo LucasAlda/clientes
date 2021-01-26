@@ -1,0 +1,26 @@
+.options {
+  display: none;
+  overflow: hidden;
+  position: absolute;
+  background-color: #fff;
+  width: 230px;
+  border-radius: 6px;
+  z-index: 10;
+  color: #575757;
+  box-shadow: rgb(0, 0, 0, 0.16) 0 3px 6px;
+  transform: translateY(5px);
+}
+
+.options.open {
+  display: block;
+}
+
+.options .option {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 14px;
+}
+
+.options .option.active {
+  background-color: hsl(217, 100%, 95%);
+}

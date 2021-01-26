@@ -1,0 +1,76 @@
+ul.tickets {
+  position: relative;
+  padding-left: 0;
+  margin: 0;
+}
+
+.tickets li {
+  display: flex;
+  padding: 5px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tickets li .info {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.tickets li .info h3 {
+  font-size: 14px;
+  width: 50px;
+  margin: 0;
+}
+
+.tickets li .info h4 {
+  margin: 0;
+  margin-left: 15px;
+  color: hsl(220, 55%, 62%);
+}
+
+.tickets li .to {
+  color: hsl(220, 9%, 56%);
+  font-weight: 600;
+  width: 300px;
+  display: flex;
+  align-items: center;
+}
+
+.tickets li .to .pill {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.tickets li .to .pill svg {
+  margin-right: 5px;
+  margin-top: -1.5px;
+}
+
+.tickets li .to svg {
+  stroke-width: 3px;
+  margin-right: 5px;
+}
+
+.tickets li .from {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.tickets li .from h5 {
+  color: hsl(220, 9%, 56%);
+  margin: 0;
+  font-size: 11px;
+}
+
+.tickets li .from h5:last-child {
+  font-size: 10px;
+}
+
+.tickets li .from h5 span {
+  font-weight: 500;
+  color: hsl(220, 9%, 56%);
+}

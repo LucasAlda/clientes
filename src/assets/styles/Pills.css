@@ -1,0 +1,32 @@
+.pill-md {
+  padding: 0 8px;
+  line-height: 20px;
+  border-radius: 1000px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pill-blue {
+  color: hsl(220, 50%, 40%);
+  background-color: hsl(220, 90%, 90%);
+}
+
+.pill-green {
+  color: hsl(163, 50%, 30%);
+  background-color: hsl(163, 90%, 80%);
+}
+
+.pill-red {
+  color: hsl(0 30% 35% / 1);
+  background-color: hsl(0deg 70% 80%);
+}
+
+.pill-yellow {
+  color: hsl(45, 35%, 35%);
+  background-color: hsl(45, 70%, 80%);
+}
+
+.pill-grey {
+  color: hsl(220, 20%, 35%);
+  background-color: hsl(220deg 28% 95%);
+}

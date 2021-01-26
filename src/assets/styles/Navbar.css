@@ -1,0 +1,252 @@
+nav {
+  width: 100%;
+  background-color: hsl(215, 28%, 17%);
+  height: 61px;
+  overflow: hidden;
+  transition: height 300ms ease-in-out;
+}
+
+nav.open {
+  height: 240px;
+}
+
+nav .container > div {
+  box-sizing: content-box;
+  border-bottom: 1px solid hsl(217, 20%, 25%);
+  margin: 0;
+}
+
+nav .nav-content {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+}
+
+nav .nav-left {
+  display: flex;
+  align-items: center;
+}
+
+nav .nav-left h1 {
+  font-family: "Lato", sans-serif;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 2px;
+}
+
+.nav-pages {
+  margin: 0 40px;
+  align-items: baseline;
+}
+
+nav .nav-left .nav-pages {
+  display: none;
+}
+
+.nav-pages button {
+  padding: 6px 12px;
+  margin-left: 16px;
+  color: hsl(216, 12%, 84%);
+  user-select: none;
+  cursor: pointer;
+  line-height: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  background-color: transparent;
+  outline: 0;
+}
+
+.nav-pages button:hover:not(.active) {
+  color: #fff;
+  background-color: hsl(217, 19%, 27%);
+}
+
+.nav-pages button:first-of-type {
+  margin-left: 0;
+}
+
+.nav-pages button.active {
+  color: #fff;
+  background-color: hsl(221, 39%, 11%);
+}
+
+nav .nav-left .nav-search {
+  display: none;
+}
+
+nav .nav-right {
+  display: flex;
+  align-self: center;
+}
+
+nav .nav-right .nav-search {
+  display: none;
+}
+
+nav .nav-right .actions {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+nav .nav-right .actions .alerts {
+  background: transparent;
+  border: none;
+  color: hsl(216, 12%, 84%);
+  font-size: 20px;
+  padding: 5px;
+  height: 30px;
+}
+
+nav .nav-right .actions .user {
+  height: 35px;
+  width: 35px;
+  margin-left: 12px;
+  border: none;
+  border-radius: 50%;
+  background-color: hsl(217, 75%, 65%);
+}
+
+nav .nav-right .actions .menu-button {
+  background-color: hsl(215, 28%, 17%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  height: 30px;
+  width: 30px;
+  border: none;
+  border-radius: 6px;
+}
+
+nav .nav-right .actions .menu-button:hover,
+nav.open .nav-right .actions .menu-button {
+  background-color: hsl(221, 39%, 11%);
+}
+
+nav .nav-right .actions .menu-button svg {
+  font-size: 20px;
+  color: hsl(216, 12%, 84%);
+}
+
+nav .mobile-menu {
+  display: none;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+nav.open .mobile-menu {
+  display: grid;
+  gap: 20px;
+}
+
+nav .mobile-menu .nav-pages {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  grid-column: 1 / -1;
+}
+
+nav .mobile-menu .nav-search input {
+  width: 100%;
+}
+
+nav .nav-search {
+  position: relative;
+}
+
+nav .nav-search input {
+  width: 250px;
+  height: 40px;
+  background-color: hsl(217, 19%, 27%);
+  border: none;
+  border-radius: 6px;
+  padding: 0 15px 0 44px;
+  outline: 0;
+  transition: all 300ms ease-in-out;
+  color: hsl(216, 12%, 84%);
+}
+
+nav .nav-search input::placeholder {
+  color: hsl(216, 12%, 65%);
+}
+
+nav .nav-search .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+
+nav .nav-search .cross-icon {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  transition: opacity 200ms ease-in-out;
+  cursor: pointer;
+  height: 13.5px;
+  width: 13.5px;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: 0;
+}
+
+nav .nav-search:focus-within .cross-icon {
+  opacity: 1;
+}
+
+nav .nav-search svg > * {
+  color: hsl(216, 12%, 84%);
+}
+
+.header-extended {
+  background-color: hsl(215, 28%, 17%);
+}
+
+@media (min-width: 600px) {
+  nav.open {
+    height: 175px;
+  }
+
+  nav.open .mobile-menu {
+    grid-template-columns: auto auto;
+  }
+
+  nav .mobile-menu .nav-pages {
+    justify-content: flex-start;
+  }
+
+  nav .mobile-menu .nav-search input {
+    width: 250px;
+  }
+}
+
+@media (min-width: 1200px) {
+  nav.open {
+    height: 60px;
+  }
+  nav .nav-left .nav-pages {
+    display: flex;
+  }
+
+  nav .nav-left .nav-search,
+  nav .nav-right .nav-search {
+    display: block;
+  }
+
+  nav .nav-right .actions .menu-button {
+    display: none;
+  }
+
+  nav.open .mobile-menu {
+    display: none;
+  }
+}
