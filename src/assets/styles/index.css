@@ -26,6 +26,27 @@ body {
   width: 100%;
 }
 
+*:not(html):not(body)::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+*:not(html):not(body)::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+/* Handle */
+*:not(html):not(body)::-webkit-scrollbar-thumb {
+  background: rgb(195, 195, 195);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+*:not(html):not(body)::-webkit-scrollbar-thumb:hover {
+  background: rgb(175, 175, 175);
+}
+
 @media (min-width: 1200px) {
   .container {
     padding: 0 40px;

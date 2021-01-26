@@ -13,7 +13,7 @@ const Ticket = (props) => {
   console.log(titulo, diff);
 
   return (
-    <li>
+    <li className="ticket">
       <div className="info">
         <h3>{comitente} </h3>
         <h4>{titulo}</h4>

@@ -30,3 +30,25 @@
   position: relative;
   top: 3px;
 }
+
+.bottom-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.bottom-section > div {
+  max-height: calc((100vh - 240px) / 2 + 30px);
+}
+
+@media (min-width: 1200px) {
+  .bottom-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+  }
+
+  .bottom-section > div {
+    height: calc((100vh - 240px) / 2 + 30px);
+  }
+}

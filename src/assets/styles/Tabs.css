@@ -1,26 +1,72 @@
 .tabs {
   position: relative;
-  display: inline-flex;
+  display: flex;
   z-index: 1;
   padding-left: 0;
   margin: 0;
+  overflow: auto;
 }
 
 .tabs li {
   display: block;
   text-align: center;
   line-height: 30px;
-  border-radius: 6px 6px 0 0;
   font-size: 13px;
   margin-left: 10px;
+  cursor: pointer;
+}
+
+.tabs.tabs-pills li {
+  color: #575757;
+  white-space: nowrap;
+  width: 100px;
+  font-weight: 600;
+  font-size: 14px;
+  width: auto;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.tabs.tabs-pills li.active {
+  background-color: hsl(220, 15%, 90%);
 }
 
 .tabs.tabs-folder li {
+  border-radius: 6px 6px 0 0;
   color: #575757;
+  white-space: nowrap;
   width: 100px;
   background-color: #d7dade;
 }
 
 .tabs.tabs-folder li.active {
   background-color: #fff;
+}
+
+.mobile-tab.tabs.tabs-folder {
+  position: relative;
+  background-color: #d7dade;
+  border: 1px solid #575757;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.mobile-tab.tabs.tabs-pills {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.mobile-tab svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 15px;
+}
+
+@media (max-width: 600px) {
+  .tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Principal from "../containers/Principal";
+import Comitente from "../containers/Comitente";
 import Navbar from "../components/Navbar";
 import axiosConfig from "../helpers/axios";
 import numbersConfig from "../helpers/numbers";
@@ -22,7 +23,7 @@ const App = () => {
       <Navbar search={search} setSearch={setSearch} />
       <Switch>
         <Route exact path="/" render={(props) => <Principal {...props} search={search} setSearch={setSearch} />} />
-        <Route exact path="/hola" render={(props) => <div>gola</div>} />
+        <Route exact path="/comitente/:comitente" render={(props) => <Comitente {...props} />} />
       </Switch>
     </BrowserRouter>
   );

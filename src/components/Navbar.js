@@ -12,6 +12,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
   const onSubmitComitente = (e) => {
     e.preventDefault();
     setSearch((prev) => ({ ...prev, text: comitente }));
+    setOpen(false);
     if (section !== "principal") history.push({ pathname: "/" });
   };
   const onSubmitEspecie = (e) => {
@@ -63,7 +64,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
         <div>
           <div className="nav-content">
             <div className="nav-left">
-              <h1>Clientes</h1>
+              <h1 onClick={() => history.push({ pathname: "/" })}>Clientes</h1>
               <div className="nav-pages">
                 <button href="" className="active">
                   Extras

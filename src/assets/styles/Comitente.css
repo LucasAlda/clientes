@@ -1,0 +1,57 @@
+.header-extended.comitente {
+  padding: 24px 0;
+}
+
+.header {
+  color: #fff;
+}
+
+.header h2 {
+  margin: 0;
+  /* font-size: 24px; */
+}
+
+.header h2 span {
+  font-weight: 700;
+  padding-right: 10px;
+}
+
+.header .contact {
+  display: flex;
+}
+
+.header .contact > div {
+  color: hsl(220, 10%, 75%);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  margin: 8px 24px 0 0;
+  font-size: 14px;
+}
+
+.header .contact > div:first-of-type {
+  margin-left: 0;
+}
+
+.header .contact > div svg {
+  stroke-width: 1;
+  fill: hsl(220, 10%, 75%);
+  color: #1f2937;
+  height: 20px;
+  width: 20px;
+  margin-right: 6px;
+}
+
+.header .contact > div svg:first-child polyline {
+  stroke-width: 2;
+}
+
+@media (max-width: 600px) {
+  .header h2 {
+    font-size: 16px;
+  }
+
+  .header .contact {
+    flex-direction: column;
+  }
+}

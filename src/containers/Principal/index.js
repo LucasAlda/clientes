@@ -7,11 +7,14 @@ import Pills from "../../components/Pills";
 import { Table } from "../../components/Table";
 import Tabs from "../../components/Tabs";
 import "../../assets/styles/Tickets.css";
-import Ticket from "../../components/Ticket";
+import Tickets from "../../components/Tickets";
+import Birthdays from "../../components/Birthdays";
 
-const Principal = ({ search, setSearch }) => {
+const Principal = ({ history, search, setSearch }) => {
   const [openSelectCategory, setOpenSelectCategory] = useState(false);
   const [activeTab, setActiveTab] = useState("tickets");
+
+  const handleTicket = (ticket) => {};
 
   const data = [
     {
@@ -69,12 +72,28 @@ const Principal = ({ search, setSearch }) => {
       por: "Dolores",
     },
     {
+      comitente: "General",
+      titulo: "Actualizar certificados de la intranet",
+      vencimiento: "2020-07-01",
+      creacion: "2015-08-20",
+      para: "Todos",
+      por: "Dolores",
+    },
+    {
       comitente: 13605,
       titulo: "Chequear que este todo correcto",
       vencimiento: "2021-01-25",
       creacion: "2015-08-20",
       para: "Todos",
       por: "Dolores",
+    },
+    {
+      comitente: 13600,
+      titulo: "Mandar valores",
+      vencimiento: "2021-01-25",
+      creacion: "2015-08-20",
+      para: "Todos",
+      por: "Exequiel",
     },
     {
       comitente: 2019,
@@ -84,9 +103,42 @@ const Principal = ({ search, setSearch }) => {
       para: "Todos",
       por: "Dolores",
     },
+    {
+      comitente: 10234,
+      titulo: "Mandar Valores",
+      vencimiento: "2021-09-26",
+      creacion: "2015-08-20",
+      para: "Todos",
+      por: "Dolores",
+    },
+    {
+      comitente: 802,
+      titulo: "Transferir a Banelco",
+      vencimiento: "2021-09-26",
+      creacion: "2015-08-20",
+      para: "Javier",
+      por: "Dolores",
+    },
+    {
+      comitente: 1801,
+      titulo: "Comprar Dolares",
+      vencimiento: "2021-09-26",
+      creacion: "2015-08-20",
+      para: "Antonio",
+      por: "Dolores",
+    },
+    {
+      comitente: 1801,
+      titulo: "Consultar a Byma sobre cheque",
+      vencimiento: "2021-08-14",
+      creacion: "2015-03-20",
+      para: "Antonio",
+      por: "Dolores",
+    },
   ];
 
   const dataTable = data.map((row) => ({
+    handleClick: () => history.push({ pathname: `/comitente/${row.comitente}` }),
     cells: [
       { style: { fontWeight: 600 }, content: row.comitente },
       { content: row.nombreCuenta },
@@ -160,15 +212,13 @@ const Principal = ({ search, setSearch }) => {
               { label: "Liq Mer MEP", value: "LiqMerMEP" },
             ]}
           />
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 20 }}>
+          <div className="bottom-section">
             <Card>
-              <ul className="tickets">
-                {tickets.map((ticket, i) => (
-                  <Ticket key={i} {...ticket} />
-                ))}
-              </ul>
+              <Tickets tickets={tickets} onClick={handleTicket} />
             </Card>
-            <Card></Card>
+            <Card>
+              <Birthdays />
+            </Card>
           </div>
         </div>
       </div>
