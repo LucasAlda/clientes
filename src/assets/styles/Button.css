@@ -1,0 +1,205 @@
+.btn {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  outline: 0 !important;
+  white-space: nowrap;
+  border: none;
+  user-select: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 6px;
+  transition: color 0.2s linear, background-color 0.3s linear, background 0.8s;
+  overflow: hidden;
+}
+
+.btn.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 4px;
+}
+
+.btn.btn-xs.btn-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.btn.btn-sm.btn-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.btn-icon .rs-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  padding: 2px 0;
+  font-size: 12px;
+  line-height: 1.66666667;
+}
+
+.btn-xs {
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 1.66666667;
+  border-radius: 6px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: hsl(220, 80%, 60%);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: hsl(220, 80%, 65%) radial-gradient(circle, transparent 1%, hsl(220, 80%, 65%) 1%) center/15000%;
+}
+
+.btn-primary:active {
+  background-color: hsl(220, 80%, 60%);
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-secondary {
+  color: #575757;
+  background: #ececec;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background: #d2d2d8 radial-gradient(circle, transparent 1%, #d2d2d8 1%) center/15000%;
+}
+
+.btn-secondary:active {
+  background-color: #e5e5ea;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-secondary.active {
+  color: #575757;
+  background-color: #d9d9d9;
+  background-image: none;
+}
+
+.btn-dark {
+  color: #ffffff;
+  background: #696969;
+}
+
+.btn-dark:hover {
+  background: #858586 radial-gradient(circle, transparent 1%, #949499 1%) center/15000%;
+}
+
+.btn-dark:active {
+  background-color: #696969;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-transparent {
+  color: #575757;
+  background: transparent;
+}
+
+.btn-transparent:hover,
+.btn-transparent:focus {
+  color: #575757;
+  background-color: #ececec;
+}
+
+.btn-transparent:hover {
+  background: #ececec radial-gradient(circle, transparent 1%, #ececec 1%) center/15000%;
+}
+
+.btn-transparent:active {
+  background-color: #e5e5ea;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-yellow {
+  color: #fff;
+  background-color: #ffca28;
+}
+
+.btn-yellow:hover,
+.btn-yellow:focus {
+  background: #e6ba2a radial-gradient(circle, transparent 1%, #e6ba2a 1%) center/15000%;
+}
+
+.btn-yellow:active {
+  background-color: #ffca28;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-red {
+  color: #fff;
+  background-color: #f44336;
+}
+
+.btn-red:hover,
+.btn-red:focus {
+  background: #da3b2d radial-gradient(circle, transparent 1%, #da3b2d 1%) center/15000%;
+}
+
+.btn-red:active {
+  background-color: #f44336;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-green {
+  color: #fff;
+  background-color: #4caf50;
+}
+/* 
+.btn-green:hover {
+  background-color: #3ba340;
+} */
+
+.btn-green:hover,
+.btn-green:focus {
+  background: #3ba340 radial-gradient(circle, transparent 1%, #3ba340 1%) center/15000%;
+}
+
+.btn-green:active {
+  background-color: #4caf50;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.btn-white {
+  background-color: #ffffff;
+}
+/* 
+.btn-green:hover {
+  background-color: #3ba340;
+} */
+
+.btn-white:hover,
+.btn-white:focus {
+  background: #cccccc radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
+}
+
+.btn-white:active {
+  background-color: #cccccc;
+  background-size: 100%;
+  transition: background-size 0s;
+}
+
+.table .btn {
+  margin-right: 5px;
+}

@@ -11,7 +11,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
 
   const onSubmitComitente = (e) => {
     e.preventDefault();
-    setSearch((prev) => ({ ...prev, text: comitente }));
+    setSearch((prev) => ({ ...prev, enter: true, text: comitente }));
     setOpen(false);
     if (section !== "principal") history.push({ pathname: "/" });
   };
@@ -29,7 +29,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
           type="text"
           placeholder="Buscar Comitente"
           value={comitente}
-          onChange={(e) => setComitente(e.target.value)}
+          onChange={(e) => setComitente(e.target.value.toUpperCase())}
           autoComplete="off"
         />
         <button className="cross-icon" type="button" onClick={() => setComitente("")}>
@@ -48,7 +48,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
           type="text"
           placeholder="Buscar Especie"
           value={especie}
-          onChange={(e) => setEspecie(e.target.value)}
+          onChange={(e) => setEspecie(e.target.value.toUpperCase())}
           autoComplete="off"
         />
         <button className="cross-icon" type="button" onClick={() => setEspecie("")}>

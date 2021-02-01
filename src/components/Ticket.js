@@ -4,13 +4,10 @@ import Pills from "./Pills";
 
 const Ticket = (props) => {
   const { comitente = "", titulo = "", vencimiento = new Date(), para = "", creacion = new Date(), por = "" } = props;
-  console.log(props);
   const venc = new Date(vencimiento);
   const creac = new Date(creacion);
 
   const diff = (venc.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24;
-
-  console.log(titulo, diff);
 
   return (
     <li className="ticket">

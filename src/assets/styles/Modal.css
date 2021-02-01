@@ -1,0 +1,120 @@
+.modal-container {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.modal-container .backdrop {
+  transition: opacity 0.2s ease-in;
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(39, 44, 54);
+}
+
+.modal-container.in .backdrop {
+  opacity: 0.3;
+}
+
+.modal {
+  max-width: 90%;
+  overflow: visible;
+  outline: 0;
+  margin: 30px auto 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  position: relative;
+  z-index: 15;
+  animation-name: bounceIn;
+  animation-duration: 0.2s;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  animation-fill-mode: forwards;
+}
+
+.modal-container.out .modal {
+  animation-name: bounceOut;
+  animation-duration: 0.2s;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  animation-fill-mode: forwards;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.modal-xs {
+  width: 400px;
+}
+
+.modal-sm {
+  width: 500px;
+}
+
+.modal-md {
+  width: 600px;
+}
+
+.modal-lg {
+  width: 1050px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+}
+
+.modal-header h4 {
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  color: #575757;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.modal-header .close-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.modal-body {
+  position: relative;
+  padding: 30px 0 40px 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+}

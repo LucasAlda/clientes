@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import "../../assets/styles/Principal.css";
 import Card from "../../components/Card";
@@ -9,50 +9,14 @@ import Tabs from "../../components/Tabs";
 import "../../assets/styles/Tickets.css";
 import Tickets from "../../components/Tickets";
 import Birthdays from "../../components/Birthdays";
+import authFetch from "../../helpers/authFetch";
 
 const Principal = ({ history, search, setSearch }) => {
   const [openSelectCategory, setOpenSelectCategory] = useState(false);
   const [activeTab, setActiveTab] = useState("tickets");
+  const [searchResult, setSearchResult] = useState([]);
 
   const handleTicket = (ticket) => {};
-
-  const data = [
-    {
-      comitente: 10351,
-      nombreCuenta: "ALDAZABAL Y CIA FRACCIONES DE TERCEROS",
-      tipoCuenta: "J",
-      mail: "exequiel@aldazabal.sba.com.ar",
-      telefono: "4394-4428/6818/4613",
-    },
-    {
-      comitente: 10961,
-      nombreCuenta: "ALDAZABAL Y COMPANIA S.A.",
-      tipoCuenta: "J",
-      mail: "exequiel@aldazabal.sba.com.ar",
-      telefono: "4394-4613/6818",
-    },
-    {
-      comitente: 11642,
-      nombreCuenta: "ALDAZABAL IGNACIO RAFAEL (NAEX) Y/O IGLESIAS BLANCO IGNACIO Y/O ALDAZABAL EXE",
-      tipoCuenta: "F",
-      mail: "ia@naex.com.ar;ni@naex.com.ar",
-      telefono: "4394-6818 155-626-0808",
-    },
-    {
-      comitente: 12136,
-      nombreCuenta: "ALDAZABAL Y COMPANIA S.A. CUENTA SUSCRIPCION , lLICITACION Y CANJE EN CURSO",
-      tipoCuenta: "F",
-      mail: "exequiel@aldazabal.sba.com.ar",
-      telefono: "4394-4613/6818",
-    },
-    {
-      comitente: 12965,
-      nombreCuenta: "ALDAZABAL SEBASTIAN RAFAEL Y/O ALDAZABAL EXEQUIEL RAFAEL Y/O HERBIN LUCILA",
-      tipoCuenta: "F",
-      mail: "sebastian@aldazabal.com.ar;saldazab",
-      telefono: "4394-6818 155-626-0811",
-    },
-  ];
 
   const tickets = [
     {
@@ -137,26 +101,39 @@ const Principal = ({ history, search, setSearch }) => {
     },
   ];
 
-  const dataTable = data.map((row) => ({
-    handleClick: () => history.push({ pathname: `/comitente/${row.comitente}` }),
+  useEffect(() => {
+    if (search.enter) {
+      authFetch("/search", {
+        method: "POST",
+        body: search,
+      })
+        .then((data) => setSearchResult(data))
+        .catch((err) => console.log(err));
+    }
+  }, [search]);
+
+  console.log(searchResult);
+
+  const dataTable = searchResult.map((row) => ({
+    handleClick: () => history.push({ pathname: `/comitente/${row.COMITENTE}/` }),
     cells: [
-      { style: { fontWeight: 600 }, content: row.comitente },
-      { content: row.nombreCuenta },
+      { className: "text-center", style: { fontWeight: 600 }, content: row.COMITENTE },
+      { content: row.NOMBRE_CUENTA },
       {
         content: (
-          <Pills color={row.tipoCuenta === "J" ? "green" : "blue"}>
-            {row.tipoCuenta === "J" ? "Jurídica" : "Física"}
+          <Pills color={row.TIPO_COMITENTE === 0 ? "green" : row.TIPO_COMITENTE === -1 ? "blue" : "red"}>
+            {row.TIPO_COMITENTE === 0 ? "Jurídica" : row.TIPO_COMITENTE === -1 ? "Física" : "Proveedor"}
           </Pills>
         ),
       },
-      { content: row.mail },
-      { content: row.telefono },
+      { className: "text-truncate", style: { maxWidth: 400 }, content: row.MAIL },
+      { content: row.TELEFONO },
     ],
   }));
 
   return (
     <>
-      <div className="header-extended principal" style={{ height: 100 }}>
+      <div className="header-extended principal" style={{ height: 135 }}>
         <h3>
           {search.text ? (
             <>
@@ -187,19 +164,19 @@ const Principal = ({ history, search, setSearch }) => {
         </h3>
       </div>
       <div className="container">
-        <Card style={{ marginTop: -20, height: "calc((100vh - 240px) / 2 - 30px)" }}>
+        <Card style={{ marginTop: -70, height: "calc((100vh - 220px) / 2 - 30px)" }}>
           <Table
             data={dataTable}
             columns={[
               { content: "Comitente", sortable: false, filterable: false },
-              { content: "Nombre de Cuenta", sortable: false, filterable: false },
-              { content: "Tipo", sortable: false, filterable: false },
-              { content: "Mail", sortable: false, filterable: false },
-              { content: "Telefono", sortable: false, filterable: false },
+              { className: "text-left", content: "Nombre de Cuenta", sortable: false, filterable: false },
+              { className: "text-left", content: "Tipo", sortable: false, filterable: false },
+              { className: "text-left", content: "Mail", sortable: false, filterable: false },
+              { className: "text-left", content: "Telefono", sortable: false, filterable: false },
             ]}
           />
         </Card>
-        <div style={{ paddingTop: 20 }}>
+        <div style={{ paddingTop: 30 }}>
           <Tabs
             tabStyle="folder"
             value={activeTab}

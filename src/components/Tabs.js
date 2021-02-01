@@ -12,7 +12,7 @@ const Tabs = ({ style, tabStyle = "pills", options, value, handleSubmit }) => {
   }, []);
 
   return mobile ? (
-    <div className={`mobile-tab tals-${tabStyle}`} style={style} onClick={() => setOpen((prev) => !prev)}>
+    <div className={`mobile-tab tabs-${tabStyle}`} style={style} onClick={() => setOpen((prev) => !prev)}>
       {options.find((o) => o.value === value).label || "Ninguna seleccionada"}
       <FiChevronDown />
       <Options data={options} show={open} setShow={setOpen} value={value} handleSubmit={handleSubmit} />

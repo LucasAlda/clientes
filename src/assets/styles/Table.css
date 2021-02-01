@@ -34,18 +34,18 @@ thead tr:first-of-type th {
   border-top: 0;
 }
 
-.panel th:first-of-type,
-.panel td:first-of-type {
+.card th:first-of-type,
+.card td:first-of-type {
   border-left: none;
 }
 
-.panel th:last-of-type,
-.panel td:last-of-type {
+.card th:last-of-type,
+.card td:last-of-type {
   border-right: none;
 }
 
-.panel tbody tr:last-of-type th,
-.panel tbody tr:last-of-type td {
+.card tbody tr:last-of-type th,
+.card tbody tr:last-of-type td {
   border-bottom: none;
 }
 
@@ -73,6 +73,10 @@ th.th-filter {
 
 td {
   /* color: hsl(220, 39%, 11%); */
+}
+
+.text-red td {
+  color: #e00606;
 }
 
 .text-truncate {

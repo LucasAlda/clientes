@@ -21,6 +21,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-bold td {
+  font-weight: bold;
+}
+
 .container {
   padding: 0 20px;
   width: 100%;
@@ -28,6 +50,7 @@ body {
 
 *:not(html):not(body)::-webkit-scrollbar {
   width: 8px;
+  height: 10px;
 }
 
 /* Track */

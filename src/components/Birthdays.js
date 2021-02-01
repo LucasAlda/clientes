@@ -15,13 +15,16 @@ const Birthdays = () => {
     { persona: "SPORN DANIEL LEONARDO", nacimiento: "1979-01-31" },
     { persona: "BABIC LILIANA", nacimiento: "1979-02-01" },
     { persona: "DUCHINI MORENO HUGO RICARDO", nacimiento: "1941-02-02" },
+    { persona: "BERNAL MARIA GRACIELA", nacimiento: "1954-01-22" },
+    { persona: "ROBINO NILDA CATALINA DE GABRIELLI", nacimiento: "1980-01-24" },
+    { persona: "SPORN DANIEL LEONARDO", nacimiento: "1978-01-26" },
+    { persona: "TARRIS HELENA ANA", nacimiento: "1947-01-22" },
   ];
   return (
-    <ul
-      style={{ padding: "5px 0", position: "relative", margin: 0, display: "grid", borderBottom: "1px solid #e5e7eb" }}
-    >
-      {data.map((birthday) => (
+    <ul style={{ padding: "5px 0", position: "relative", margin: 0, display: "grid" }}>
+      {data.map((birthday, i) => (
         <li
+          key={i}
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -31,9 +34,19 @@ const Birthdays = () => {
             width: "100%",
           }}
         >
-          <h4 style={{ margin: 0, color: "#575757" }}>{birthday.persona}</h4>
-          <div style={{ textAlign: "right", color: "hsl(220, 10%, 65%)" }}>
-            <h5 style={{ margin: 0, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+          <h4 style={{ margin: 0, color: "#575757", fontSize: 13 }}>{birthday.persona}</h4>
+          <div
+            style={{
+              textAlign: "right",
+              color: "hsl(220, 10%, 65%)",
+              display: "flex",
+              justifyContent: "space-between",
+              width: 160,
+            }}
+          >
+            <h5
+              style={{ margin: 0, display: "flex", alignItems: "center", justifyContent: "space-between", width: 63 }}
+            >
               <FiGift style={{ marginRight: 5 }} />
               {parseInt(
                 (new Date().getTime() - new Date(birthday.nacimiento).getTime()) / 1000 / 60 / 60 / 24 / 365
