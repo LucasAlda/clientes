@@ -9,6 +9,7 @@ export const Table = React.memo(
     separator = false,
     filterStatus = false,
     style,
+    className,
     loading = false,
     loadingHeight = 10,
     tableTotal,
@@ -144,7 +145,7 @@ export const Table = React.memo(
     }
 
     return (
-      <table className="table" style={style}>
+      <table className={`table${className ? ` ${className}` : ""}`} style={style}>
         <thead>
           <tr>
             {columns.map((col, i) => (

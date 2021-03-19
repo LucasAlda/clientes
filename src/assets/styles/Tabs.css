@@ -44,6 +44,11 @@
   background-color: #fff;
 }
 
+.mobile-tab {
+  display: flex;
+  flex-grow: 1;
+}
+
 .mobile-tab.tabs-folder {
   position: relative;
   background-color: #d7dade;

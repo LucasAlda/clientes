@@ -27,8 +27,13 @@
 }
 
 .btn.btn-xs.btn-icon {
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
+}
+
+.btn.btn-xs.btn-icon svg {
+  width: 21px;
+  height: 21px;
 }
 
 .btn.btn-sm.btn-icon {

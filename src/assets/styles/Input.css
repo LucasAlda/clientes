@@ -10,8 +10,10 @@ form:not(.form-inline) .form-group:not(:last-of-type) {
 }
 
 select,
-input {
+input,
+textarea {
   width: 100%;
+  outline: 0;
   display: block;
   color: #575757;
   background-color: #fff;
@@ -99,17 +101,29 @@ select:disabled {
 input:focus,
 input:hover,
 select:focus,
-select:hover {
+select:hover,
+textarea:focus,
+textarea:hover {
   border-color: #1675e0;
   outline: 0;
 }
 
 .form-group.error input,
-.form-group.error select {
+.form-group.error select,
+.form-group.error textarea {
   border-color: hsl(0, 100%, 45%);
 }
 
 .form-group.error .error {
   position: absolute;
   color: hsl(0, 100%, 45%);
+}
+
+.user-select > div > div {
+  border-color: #e5e5ea;
+}
+
+.user-select > div > div:hover {
+  border-color: #1675e0;
+  border-width: 1px;
 }

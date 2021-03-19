@@ -1,28 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiGift } from "react-icons/fi";
+import authFetch from "../helpers/authFetch";
 
 const Birthdays = () => {
-  const data = [
-    { persona: "LENARDUZZI JOSE LUIS", nacimiento: "1941-01-22" },
-    { persona: "TARRIS HELENA ANA", nacimiento: "1947-01-22" },
-    { persona: "BERNAL MARIA GRACIELA", nacimiento: "1954-01-22" },
-    { persona: "FERRANTE GISELA ALEJANDRA", nacimiento: "1963-01-22" },
-    { persona: "FIORIO FLAVIA DANIELA", nacimiento: "1980-01-24" },
-    { persona: "ROBINO NILDA CATALINA DE GABRIELLI", nacimiento: "1980-01-24" },
-    { persona: "SPORN DANIEL LEONARDO", nacimiento: "1978-01-26" },
-    { persona: "BERNAL MARIA GRACIELA", nacimiento: "1990-01-26" },
-    { persona: "MOSCOLONI MARCELA PATRICIA", nacimiento: "1994-01-27" },
-    { persona: "SPORN DANIEL LEONARDO", nacimiento: "1979-01-31" },
-    { persona: "BABIC LILIANA", nacimiento: "1979-02-01" },
-    { persona: "DUCHINI MORENO HUGO RICARDO", nacimiento: "1941-02-02" },
-    { persona: "BERNAL MARIA GRACIELA", nacimiento: "1954-01-22" },
-    { persona: "ROBINO NILDA CATALINA DE GABRIELLI", nacimiento: "1980-01-24" },
-    { persona: "SPORN DANIEL LEONARDO", nacimiento: "1978-01-26" },
-    { persona: "TARRIS HELENA ANA", nacimiento: "1947-01-22" },
-  ];
+  const [birthdays, setBithdays] = useState([]);
+
+  useEffect(() => {
+    authFetch("/bottom/birthdays")
+      .then((data) => setBithdays(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <ul style={{ padding: "5px 0", position: "relative", margin: 0, display: "grid" }}>
-      {data.map((birthday, i) => (
+      {birthdays.map((birthday, i) => (
         <li
           key={i}
           style={{
@@ -34,7 +25,7 @@ const Birthdays = () => {
             width: "100%",
           }}
         >
-          <h4 style={{ margin: 0, color: "#575757", fontSize: 13 }}>{birthday.persona}</h4>
+          <h4 style={{ margin: 0, color: "#575757", fontSize: 13 }}>{birthday.Descripcion}</h4>
           <div
             style={{
               textAlign: "right",
@@ -49,11 +40,11 @@ const Birthdays = () => {
             >
               <FiGift style={{ marginRight: 5 }} />
               {parseInt(
-                (new Date().getTime() - new Date(birthday.nacimiento).getTime()) / 1000 / 60 / 60 / 24 / 365
+                (new Date().getTime() - new Date(birthday.FechaNacimiento).getTime()) / 1000 / 60 / 60 / 24 / 365
               )}{" "}
               años
             </h5>
-            <h5 style={{ margin: 0 }}>{new Date(birthday.nacimiento).format()}</h5>
+            <h5 style={{ margin: 0 }}>{new Date(birthday.FechaNacimiento).format()}</h5>
           </div>
         </li>
       ))}

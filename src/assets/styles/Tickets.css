@@ -6,41 +6,49 @@ ul.tickets {
   border-bottom: 1px solid #e5e7eb;
 }
 
-.tickets li {
+ul.tickets li {
   display: flex;
   padding: 5px 20px;
   border-bottom: 1px solid #e5e7eb;
   width: 100%;
 }
 
-.tickets li:last-child {
+ul.tickets li.mine {
+  background-color: hsl(220, 60%, 95%);
+  border-bottom: 1px solid hsl(220, 60%, 90%);
+  border-top: 1px solid hsl(220, 60%, 90%);
+  margin-top: -1px;
+}
+
+ul.tickets li:last-child {
   border-bottom: none;
 }
 
-.tickets li * {
+ul.tickets li * {
   white-space: nowrap;
 }
 
-.tickets li .info {
+ul.tickets li .info {
   flex-grow: 1;
   display: flex;
   align-items: center;
   padding-right: 10px;
 }
 
-.tickets li .info h3 {
+ul.tickets li .info h3 {
   font-size: 14px;
   width: 50px;
   margin: 0;
 }
 
-.tickets li .info h4 {
+ul.tickets li .info h4 {
   margin: 0;
   margin-left: 15px;
-  color: hsl(220, 55%, 62%);
+  color: hsl(220, 10%, 50%);
+  font-weight: 600;
 }
 
-.tickets li .to {
+ul.tickets li .to {
   color: hsl(220, 9%, 56%);
   font-weight: 600;
   width: 300px;
@@ -48,41 +56,42 @@ ul.tickets {
   align-items: center;
 }
 
-.tickets li .to .pill {
+ul.tickets li .to .pill {
   margin-right: 10px;
   display: flex;
   align-items: center;
   padding-right: 10px;
 }
 
-.tickets li .to .pill svg {
+ul.tickets li .to .pill svg {
   margin-right: 5px;
   margin-top: -1.5px;
 }
 
-.tickets li .to svg {
+ul.tickets li .to svg {
   stroke-width: 3px;
   margin-right: 5px;
 }
 
-.tickets li .from {
+ul.tickets li .from {
+  width: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
 }
 
-.tickets li .from h5 {
+ul.tickets li .from h5 {
   color: hsl(220, 9%, 56%);
   margin: 0;
   font-size: 11px;
 }
 
-.tickets li .from h5:last-child {
+ul.tickets li .from h5:last-child {
   font-size: 10px;
 }
 
-.tickets li .from h5 span {
+ul.tickets li .from h5 span {
   font-weight: 500;
   color: hsl(220, 9%, 56%);
 }

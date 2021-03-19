@@ -13,7 +13,9 @@ const Tabs = ({ style, tabStyle = "pills", options, value, handleSubmit }) => {
 
   return mobile ? (
     <div className={`mobile-tab tabs-${tabStyle}`} style={style} onClick={() => setOpen((prev) => !prev)}>
-      {options.find((o) => o.value === value).label || "Ninguna seleccionada"}
+      <span style={{ alignSelf: "center" }}>
+        {options.find((o) => o.value === value).label || "Ninguna seleccionada"}
+      </span>
       <FiChevronDown />
       <Options data={options} show={open} setShow={setOpen} value={value} handleSubmit={handleSubmit} />
     </div>

@@ -3,7 +3,7 @@ import { FiSearch, FiBell, FiX, FiMenu } from "react-icons/fi";
 import { withRouter } from "react-router";
 import "../assets/styles/Navbar.css";
 
-const Navbar = ({ location, history, search, setSearch }) => {
+const Navbar = ({ location, history, search, setSearch, user }) => {
   const [open, setOpen] = useState(false);
   const [comitente, setComitente] = useState("");
   const [especie, setEspecie] = useState("");
@@ -11,6 +11,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
 
   const onSubmitComitente = (e) => {
     e.preventDefault();
+    e.target.blur();
     setSearch((prev) => ({ ...prev, enter: true, text: comitente }));
     setOpen(false);
     if (section !== "principal") history.push({ pathname: "/" });
@@ -28,6 +29,7 @@ const Navbar = ({ location, history, search, setSearch }) => {
           name="text"
           type="text"
           placeholder="Buscar Comitente"
+          onFocus={(e) => e.target.select()}
           value={comitente}
           onChange={(e) => setComitente(e.target.value.toUpperCase())}
           autoComplete="off"
@@ -76,10 +78,12 @@ const Navbar = ({ location, history, search, setSearch }) => {
             <div className="nav-right">
               {searchEspecie}
               <div className="actions">
-                <button className="alerts">
-                  <FiBell />
-                </button>
-                <button className="user">LA</button>
+                <>
+                  <button className="alerts">
+                    <FiBell />
+                  </button>
+                  <button className="user">{user.abv || ""}</button>
+                </>
                 <button className="menu-button" onClick={() => setOpen((prev) => !prev)}>
                   <FiMenu />
                 </button>

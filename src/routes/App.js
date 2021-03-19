@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import Principal from "../containers/Principal";
 import Comitente from "../containers/Comitente";
+import Proveedor from "../containers/Proveedor";
 import Login from "../containers/Login";
 import Navbar from "../components/Navbar";
 import axiosConfig from "../helpers/axios";
@@ -41,8 +42,12 @@ const App = () => {
       <Switch>
         <Route exact path="/login" render={(props) => <Login {...props} setUser={setUser} setAuth={setAuth} />} />
         {!auth && <Redirect to="/login" />}
-        <Route exact path="/" render={(props) => <Principal {...props} search={search} setSearch={setSearch} />} />
-        <Route path="/comitente/:comitente" render={(props) => <Comitente {...props} />} />
+        <Route path="/comitente/:comitente" render={(props) => <Comitente user={user} {...props} />} />
+        <Route path="/proveedor/:comitente" render={(props) => <Proveedor user={user} {...props} />} />
+        <Route
+          path="/"
+          render={(props) => <Principal {...props} user={user} search={search} setSearch={setSearch} />}
+        />
       </Switch>
     </BrowserRouter>
   );

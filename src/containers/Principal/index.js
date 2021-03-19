@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiAlertTriangle, FiChevronDown } from "react-icons/fi";
 import "../../assets/styles/Principal.css";
 import Card from "../../components/Card";
 import Options from "../../components/Options";
@@ -10,96 +10,13 @@ import "../../assets/styles/Tickets.css";
 import Tickets from "../../components/Tickets";
 import Birthdays from "../../components/Birthdays";
 import authFetch from "../../helpers/authFetch";
+import Saldos from "./Saldos";
+import Mercado from "./Mercado";
 
-const Principal = ({ history, search, setSearch }) => {
+const Principal = ({ location, history, search, setSearch, user }) => {
   const [openSelectCategory, setOpenSelectCategory] = useState(false);
-  const [activeTab, setActiveTab] = useState("tickets");
-  const [searchResult, setSearchResult] = useState([]);
-
-  const handleTicket = (ticket) => {};
-
-  const tickets = [
-    {
-      comitente: 12207,
-      titulo: "Transferir a Rafa",
-      vencimiento: "2020-02-05",
-      creacion: "2020-02-04",
-      para: "Daniela",
-      por: "Exe",
-    },
-    {
-      comitente: 13132,
-      titulo: "LEANDRO 153-435-0794",
-      vencimiento: "2020-07-01",
-      creacion: "2015-08-20",
-      para: "Todos",
-      por: "Dolores",
-    },
-    {
-      comitente: "General",
-      titulo: "Actualizar certificados de la intranet",
-      vencimiento: "2020-07-01",
-      creacion: "2015-08-20",
-      para: "Todos",
-      por: "Dolores",
-    },
-    {
-      comitente: 13605,
-      titulo: "Chequear que este todo correcto",
-      vencimiento: "2021-01-25",
-      creacion: "2015-08-20",
-      para: "Todos",
-      por: "Dolores",
-    },
-    {
-      comitente: 13600,
-      titulo: "Mandar valores",
-      vencimiento: "2021-01-25",
-      creacion: "2015-08-20",
-      para: "Todos",
-      por: "Exequiel",
-    },
-    {
-      comitente: 2019,
-      titulo: "telefono 4793-1793",
-      vencimiento: "2021-08-26",
-      creacion: "2015-08-20",
-      para: "Todos",
-      por: "Dolores",
-    },
-    {
-      comitente: 10234,
-      titulo: "Mandar Valores",
-      vencimiento: "2021-09-26",
-      creacion: "2015-08-20",
-      para: "Todos",
-      por: "Dolores",
-    },
-    {
-      comitente: 802,
-      titulo: "Transferir a Banelco",
-      vencimiento: "2021-09-26",
-      creacion: "2015-08-20",
-      para: "Javier",
-      por: "Dolores",
-    },
-    {
-      comitente: 1801,
-      titulo: "Comprar Dolares",
-      vencimiento: "2021-09-26",
-      creacion: "2015-08-20",
-      para: "Antonio",
-      por: "Dolores",
-    },
-    {
-      comitente: 1801,
-      titulo: "Consultar a Byma sobre cheque",
-      vencimiento: "2021-08-14",
-      creacion: "2015-03-20",
-      para: "Antonio",
-      por: "Dolores",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState(location.pathname.split("/")[1] || "tickets");
+  const [searchResult, setSearchResult] = useState({ loading: true, data: [] });
 
   useEffect(() => {
     if (search.enter) {
@@ -107,15 +24,16 @@ const Principal = ({ history, search, setSearch }) => {
         method: "POST",
         body: search,
       })
-        .then((data) => setSearchResult(data))
+        .then((data) => setSearchResult({ loading: false, data }))
         .catch((err) => console.log(err));
     }
   }, [search]);
 
-  console.log(searchResult);
-
-  const dataTable = searchResult.map((row) => ({
-    handleClick: () => history.push({ pathname: `/comitente/${row.COMITENTE}/` }),
+  console.log(searchResult.data);
+  const dataTable = searchResult.data.map((row) => ({
+    handleClick: () =>
+      history.push({ pathname: `/${row.TIPO_COMITENTE === 99 ? "proveedor" : "comitente"}/${row.COMITENTE}/` }),
+    className: row.COMITENTE_ANULADO === -1 ? "text-red" : "",
     cells: [
       { className: "text-center", style: { fontWeight: 600 }, content: row.COMITENTE },
       { content: row.NOMBRE_CUENTA },
@@ -142,17 +60,24 @@ const Principal = ({ history, search, setSearch }) => {
           ) : (
             "Buscar en"
           )}
-          <div className="select-category" onClick={() => setOpenSelectCategory((prev) => !prev)}>
+          <div
+            className="select-category"
+            onClick={() => {
+              setOpenSelectCategory((prev) => !prev);
+            }}
+          >
             {search.type === "activos"
               ? "Comitentes Activos"
               : search.type === "todos"
               ? "Todos los Comitentes"
-              : "Proveedores"}{" "}
+              : "Proveedores"}
             <FiChevronDown />
             <Options
               show={openSelectCategory}
               setShow={setOpenSelectCategory}
-              handleSubmit={(value) => setSearch((prev) => ({ ...prev, type: value }))}
+              handleSubmit={(value) => {
+                setSearch((prev) => ({ ...prev, type: value }));
+              }}
               value={search.type}
               data={[
                 { label: "Comitentes Activos", value: "activos" },
@@ -175,23 +100,62 @@ const Principal = ({ history, search, setSearch }) => {
               { className: "text-left", content: "Telefono", sortable: false, filterable: false },
             ]}
           />
+          {!search.enter && (
+            <h4
+              style={{
+                color: "hsl(220, 10%,60%)",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              Haga una búsqueda para obtener comitentes
+            </h4>
+          )}
+          {search.enter && !searchResult.loading && searchResult.data.length < 1 && (
+            <h4
+              style={{
+                color: "hsl(220, 10%,60%)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <FiAlertTriangle style={{ width: 25, height: 15, strokeWidth: 3 }} />
+              No hay Comitentes que coincidan
+            </h4>
+          )}
         </Card>
         <div style={{ paddingTop: 30 }}>
           <Tabs
             tabStyle="folder"
             value={activeTab}
-            handleSubmit={(value) => setActiveTab(value)}
+            handleSubmit={(value) => {
+              history.push(`/${value}/`);
+              setActiveTab(value);
+            }}
             options={[
               { label: "Tickets", value: "tickets" },
               { label: "Saldos del Día", value: "saldos" },
-              { label: "Liq Mercado", value: "LiqMer" },
-              { label: "Liq Mer Cable", value: "LiqMerCable" },
-              { label: "Liq Mer MEP", value: "LiqMerMEP" },
+              { label: "Liq Mercado", value: "mercado" },
+              { label: "Liq Mer Cable", value: "mercado-cable" },
+              { label: "Liq Mer MEP", value: "mercado-mep" },
             ]}
           />
           <div className="bottom-section">
             <Card>
-              <Tickets tickets={tickets} onClick={handleTicket} />
+              <Tickets show={activeTab === "tickets"} history={history} user={user} />
+              <Saldos show={activeTab === "saldos"} history={history} />
+              <Mercado
+                show={"mercado|mercado-cable|mercado-mep".includes(activeTab)}
+                history={history}
+                type={activeTab}
+              />
             </Card>
             <Card>
               <Birthdays />

@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "../assets/styles/Options.css";
 
 const Options = ({ data = [], value, handleSubmit = () => {}, show = true, setShow }) => {
   const refOptions = useRef();
-  useEffect(() => {
-    const handleClickClose = (e) => {
-      const find = e.path.findIndex((obj) => obj === refOptions.current) > -1;
-      if (!find) setShow(false);
-    };
+  // useEffect(() => {
+  //   const handleClickClose = (e) => {
+  //     const find = e.path.findIndex((obj) => obj === refOptions.current) > -1;
+  //     // if (!find) setShow(false);
+  //   };
 
-    if (show) document.addEventListener("click", handleClickClose);
-    return () => {
-      document.removeEventListener("click", handleClickClose);
-    };
-  }, [show, setShow]);
+  //   if (show) document.addEventListener("click", handleClickClose);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickClose);
+  //   };
+  // }, [show]);
 
   return (
     <div className={`options${show ? " open" : ""}`} ref={refOptions}>

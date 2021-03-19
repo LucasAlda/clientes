@@ -17,6 +17,7 @@
 }
 
 .header .contact {
+  min-height: 28px;
   display: flex;
 }
 
@@ -42,7 +43,8 @@
   margin-right: 6px;
 }
 
-.header .contact > div svg:first-child polyline {
+.header .contact > div svg:first-child polyline,
+svg.mail polyline {
   stroke-width: 2;
 }
 

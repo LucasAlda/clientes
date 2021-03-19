@@ -195,6 +195,7 @@ export const DateInput = (props) => {
     </div>
   );
 };
+
 export const NumberInput = (props) => {
   const { label, disabled = false, errors = {}, errMsg, children, name, value, register, autoFocus } = props;
 

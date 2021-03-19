@@ -3,7 +3,7 @@ import Card from "../../components/Card";
 import { Table } from "../../components/Table";
 import Button from "../../components/Button";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import ModalCuentas from "./ModalCuentas";
+import ModalCuentas from "../Comitente/ModalCuentas";
 import { confirmAlert } from "../../components/Confirm";
 import authFetch from "../../helpers/authFetch";
 import { useToasts } from "react-toast-notifications";
@@ -18,7 +18,7 @@ const Info = ({ comitenteId, user }) => {
 
   useEffect(() => {
     Promise.all([
-      authFetch(`/comitente/info/personas/${comitenteId}`),
+      authFetch(`/proveedor/info/personas/${comitenteId}`),
       authFetch(`/comitente/info/cuentas/${comitenteId}`),
     ])
       .then(([personas, cuentas]) => {
@@ -32,26 +32,7 @@ const Info = ({ comitenteId, user }) => {
   const handleSubmit = (formData) => {
     switch (modal.action) {
       case "ADD":
-        authFetch(`/comitente/info/cuentas/`, {
-          method: "POST",
-          body: formData,
-        })
-          .then((data) => authFetch(`/comitente/info/cuentas/${comitenteId}`))
-          .then((data) => setCuentas(data))
-          .catch((err) => addToast("Error Editando Cuenta!", { appearance: "error" }));
-        setModal((prev) => ({ ...prev, show: false }));
-        break;
-
-      case "EDIT":
-        authFetch(`/comitente/info/cuentas/${modal.data.Id}`, {
-          method: "PUT",
-          body: formData,
-        })
-          .then((data) => authFetch(`/comitente/info/cuentas/${comitenteId}`))
-          .then((data) => setCuentas(data))
-          .catch((err) => addToast("Error Editando Cuenta!", { appearance: "error" }));
-        setModal((prev) => ({ ...prev, show: false }));
-
+        console.log(formData);
         break;
 
       default:
@@ -67,16 +48,7 @@ const Info = ({ comitenteId, user }) => {
     cells: [
       { content: row.PERSONA },
       { content: row.TEL },
-      {
-        content: (
-          <a
-            href={"mailto:" + row.EMAIL}
-            style={{ color: "hsl(220, 10%, 35%)", textDecorationColor: "hsl(220, 10%, 50%)" }}
-          >
-            {row.EMAIL}
-          </a>
-        ),
-      },
+      { content: row.EMAIL },
       { content: row.CONDICION },
       { content: row.CUIT },
     ],

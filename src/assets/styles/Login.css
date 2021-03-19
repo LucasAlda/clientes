@@ -1,0 +1,38 @@
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login .card {
+  margin-top: -20px;
+  width: 80%;
+  max-width: 450px;
+  padding: 50px 20px;
+}
+
+.login .card img {
+  width: 60%;
+  margin: auto;
+  display: block;
+}
+
+.login .card h2 {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.login .card .btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.login .card .errors-div {
+  height: 20px;
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}

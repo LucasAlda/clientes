@@ -1,9 +1,9 @@
 import { React } from "react";
 import "../assets/styles/Card.css";
 
-const Card = ({ children, className, style }) => {
+const Card = ({ reference, children, className, style }) => {
   return (
-    <div className={`card${className ? ` ${className}` : ""}`} style={style}>
+    <div ref={reference} className={`card${className ? ` ${className}` : ""}`} style={style}>
       {children}
     </div>
   );

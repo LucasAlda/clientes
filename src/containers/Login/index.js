@@ -1,21 +1,26 @@
 import React, { useState } from "react";
-import "../../assets/styles/Template.css";
+import "../../assets/styles/Login.css";
 import authFetch from "../../helpers/authFetch";
 import { useToasts } from "react-toast-notifications";
+import Card from "../../components/Card";
 import Button from "../../components/Button";
+import Input from "../../components/Input";
+import { useForm } from "react-hook-form";
 
 const Login = ({ history, setAuth, setUser }) => {
+  const { register, handleSubmit, errors } = useForm();
   const { addToast } = useToasts();
   const [error, setError] = useState(false);
 
-  const handleLogin = () =>
+  const onSubmit = handleSubmit((data) => handleLogin(data));
+
+  const handleLogin = (data) =>
     authFetch("/user/login", {
       auth: false,
       method: "POST",
-      body: { username: "lucas@aldazabal.com.ar", password: "Lucas1890" },
+      body: data,
     })
       .then((data) => {
-        console.log(data);
         window.localStorage.setItem("token", data.accessToken);
         setAuth(data.accessToken);
         setUser({
@@ -26,7 +31,6 @@ const Login = ({ history, setAuth, setUser }) => {
           tipo: data.TIPO,
           comitentes: data.COMITENTES,
         });
-        console.log(data, data.accessToken);
         history.push("/");
       })
       .catch((err) => {
@@ -39,11 +43,30 @@ const Login = ({ history, setAuth, setUser }) => {
       });
 
   return (
-    <main className="template">
-      <h1>Login</h1>
-      <h2>
-        <Button onClick={handleLogin}>Login</Button>
-      </h2>
+    <main className="login">
+      <Card>
+        <img alt="Logo Aldazabal & Cia." src="https://exe.aldazabal.com.ar/clientes/img/logo/logoNuevo.svg" />
+        <form onSubmit={onSubmit}>
+          <h2>Iniciar Sesión</h2>
+          <Input
+            label="Usuario"
+            name="username"
+            register={register({ required: true })}
+            errors={errors}
+            errMsg="El usuario es requerido!"
+          />
+          <Input
+            type="password"
+            label="Contraseña"
+            name="password"
+            register={register({ required: true })}
+            errors={errors}
+            errMsg="La contraseña es requerida!"
+          />
+          <Button type="submit">Entrar</Button>
+          <div className="errors-div">{error && "Usuario y/o contraseña incorrectos!"}</div>
+        </form>
+      </Card>
     </main>
   );
 };
