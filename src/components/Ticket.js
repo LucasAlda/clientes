@@ -40,7 +40,7 @@ const Ticket = ({ history, ticket, users = [], user }) => {
         <Pills color={diff < -2 ? "red" : diff < 0 ? "yellow" : "grey"}>
           <FiCalendar /> {venc.format()}
         </Pills>
-        <FiUsers /> {DESTINO_ARRAY.length > 0 ? dest : USUARIO_DESTINO.replace("@", "")}
+        <FiUsers /> {JSON.parse(DESTINO_ARRAY || "[]").length > 0 ? dest : USUARIO_DESTINO.replace("@", "")}
       </div>
       <div className="from">
         <h5>
