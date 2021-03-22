@@ -24,7 +24,6 @@ const Navbar = ({ location, history, search, setSearch, user }) => {
   const searchComitente = (
     <form onSubmit={onSubmitComitente}>
       <div className="nav-search">
-        <FiSearch className="search-icon" />
         <input
           name="text"
           type="text"
@@ -34,8 +33,8 @@ const Navbar = ({ location, history, search, setSearch, user }) => {
           onChange={(e) => setComitente(e.target.value.toUpperCase())}
           autoComplete="off"
         />
-        <button className="cross-icon" type="button" onClick={() => setComitente("")}>
-          <FiX />
+        <button type="button" onClick={onSubmitComitente}>
+          <FiSearch className="search-icon" />
         </button>
       </div>
     </form>
@@ -44,7 +43,6 @@ const Navbar = ({ location, history, search, setSearch, user }) => {
   const searchEspecie = (
     <form onSubmit={onSubmitEspecie}>
       <div className="nav-search">
-        <FiSearch className="search-icon" />
         <input
           name="text"
           type="text"
@@ -53,8 +51,8 @@ const Navbar = ({ location, history, search, setSearch, user }) => {
           onChange={(e) => setEspecie(e.target.value.toUpperCase())}
           autoComplete="off"
         />
-        <button className="cross-icon" type="button" onClick={() => setEspecie("")}>
-          <FiX />
+        <button type="button">
+          <FiSearch className="search-icon" />
         </button>
       </div>
     </form>

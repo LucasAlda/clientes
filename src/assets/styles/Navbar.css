@@ -166,7 +166,7 @@ nav .nav-search input {
   background-color: hsl(217, 19%, 27%);
   border: none;
   border-radius: 6px;
-  padding: 0 40px 0 44px;
+  padding: 0 40px 0 24px;
   outline: 0;
   transition: all 300ms ease-in-out;
   color: hsl(216, 12%, 84%);
@@ -176,19 +176,11 @@ nav .nav-search input::placeholder {
   color: hsl(216, 12%, 65%);
 }
 
-nav .nav-search .search-icon {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-}
-
-nav .nav-search .cross-icon {
-  opacity: 0;
+nav .nav-search button {
   position: absolute;
   top: 50%;
   right: 15px;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + 1px));
   transition: opacity 200ms ease-in-out;
   cursor: pointer;
   height: 13.5px;
@@ -197,10 +189,6 @@ nav .nav-search .cross-icon {
   padding: 0;
   border: none;
   outline: 0;
-}
-
-nav .nav-search:focus-within .cross-icon {
-  opacity: 1;
 }
 
 nav .nav-search svg > * {

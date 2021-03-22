@@ -29,7 +29,6 @@ const Principal = ({ location, history, search, setSearch, user }) => {
     }
   }, [search]);
 
-  console.log(searchResult.data);
   const dataTable = searchResult.data.map((row) => ({
     handleClick: () =>
       history.push({ pathname: `/${row.TIPO_COMITENTE === 99 ? "proveedor" : "comitente"}/${row.COMITENTE}/` }),

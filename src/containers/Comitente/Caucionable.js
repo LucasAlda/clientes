@@ -14,7 +14,7 @@ const Caucionable = ({ match, comitenteId }) => {
       });
   }, [comitenteId]);
 
-  const tipoEspecies = [];
+  const especies = [];
 
   let TIPO_ESPECIE = "";
   let COD_ESPECIE = "";
@@ -24,12 +24,10 @@ const Caucionable = ({ match, comitenteId }) => {
   let totalCant = 0;
   let totalMonto = 0;
 
-  data.forEach((row) => {
+  data.forEach((row, i) => {
     if (row.FECHA !== FECHA) {
       if (!SALDO_INICIAL_ANT && COD_ESPECIE !== "") {
-        tipoEspecies[tipoEspecies.length - 1].especies[
-          tipoEspecies[tipoEspecies.length - 1].especies.length - 1
-        ].table.push({
+        especies[especies.length - 1].table.push({
           className: "separator sub-separator",
           cells: [
             { content: `Saldo al ${new Date(FECHA).format()}`, colspan: 2 },
@@ -43,17 +41,15 @@ const Caucionable = ({ match, comitenteId }) => {
 
     if (row.TIPO_ESPECIE !== TIPO_ESPECIE) {
       TIPO_ESPECIE = row.TIPO_ESPECIE;
-      tipoEspecies.push({ TIPO_ESPECIE: row.TIPO_ESPECIE, especies: [] });
     }
 
     if (row.COD_ESPECIE !== COD_ESPECIE) {
       if (SALDO_INICIAL_ANT && COD_ESPECIE !== "") {
-        tipoEspecies[tipoEspecies.length - 1].especies[
-          tipoEspecies[tipoEspecies.length - 1].especies.length - 1
-        ].table.push({
+        console.log(FECHA, new Date(FECHA).toOldString());
+        especies[especies.length - 1].table.push({
           className: "separator sub-separator",
           cells: [
-            { content: `Saldo al ${new Date(FECHA).format()}`, colspan: 2 },
+            { content: `Saldo al ${new Date(FECHA).format()}`, colspan: 2, order: FECHA },
             { className: "text-right", content: totalCant.format() || 0 },
             { className: "text-right", content: totalMonto.format() || 0, colspan: 3 },
           ],
@@ -64,18 +60,17 @@ const Caucionable = ({ match, comitenteId }) => {
       totalCant = 0;
       totalMonto = 0;
 
-      tipoEspecies[tipoEspecies.length - 1].especies.push({
+      especies.push({
         ESPECIE: row.ESPECIE,
         COD_ESPECIE: row.COD_ESPECIE,
+        TIPO_ESPECIE: row.TIPO_ESPECIE,
         table: [],
       });
 
       if (row.Origen !== "SALDO_INICIAL") {
         SALDO_INICIAL_ANT = true;
 
-        tipoEspecies[tipoEspecies.length - 1].especies[
-          tipoEspecies[tipoEspecies.length - 1].especies.length - 1
-        ].table.push({
+        especies[especies.length - 1].table.push({
           className: "separator",
           cells: [
             { content: "Saldo Anterior", colspan: 2 },
@@ -93,9 +88,7 @@ const Caucionable = ({ match, comitenteId }) => {
     if (row.Origen === "SALDO_INICIAL") {
       SALDO_INICIAL_ANT = true;
 
-      tipoEspecies[tipoEspecies.length - 1].especies[
-        tipoEspecies[tipoEspecies.length - 1].especies.length - 1
-      ].table.push({
+      especies[especies.length - 1].table.push({
         className: "separator",
         cells: [
           { content: "Saldo Anterior", colspan: 2 },
@@ -107,9 +100,7 @@ const Caucionable = ({ match, comitenteId }) => {
     } else {
       SALDO_INICIAL_ANT = false;
 
-      tipoEspecies[tipoEspecies.length - 1].especies[
-        tipoEspecies[tipoEspecies.length - 1].especies.length - 1
-      ].table.push({
+      especies[especies.length - 1].table.push({
         cells: [
           { className: "text-center", content: new Date(FECHA).format() },
           { content: row.Origen },
@@ -122,18 +113,18 @@ const Caucionable = ({ match, comitenteId }) => {
     }
   });
 
-  console.log(hoy);
+  console.log(especies);
 
-  tipoEspecies[tipoEspecies.length - 1]?.especies[
-    tipoEspecies[tipoEspecies.length - 1]?.especies.length - 1
-  ].table.push({
-    className: "separator sub-separator",
-    cells: [
-      { content: `Saldo al ${new Date(FECHA).format()}`, colspan: 2 },
-      { className: "text-right", content: totalCant.format() },
-      { className: "text-right", content: totalMonto.format(), colspan: 3 },
-    ],
-  });
+  if (especies.length > 0) {
+    especies[especies.length - 1].table.push({
+      className: "separator sub-separator",
+      cells: [
+        { content: `Saldo al ${new Date(FECHA).format()}`, colspan: 2 },
+        { className: "text-right", content: totalCant.format() },
+        { className: "text-right", content: totalMonto.format(), colspan: 3 },
+      ],
+    });
+  }
 
   return (
     <>
@@ -158,39 +149,34 @@ const Caucionable = ({ match, comitenteId }) => {
           ]}
         />
       </Card>
-      {tipoEspecies?.length > 0 &&
-        tipoEspecies.map((a, i) => (
-          <React.Fragment key={i}>
-            {!true && <h3 style={{ marginTop: 15, marginBottom: -10 }}>{a.TIPO_ESPECIE}</h3>}
-            {a.especies.map((b, j) => {
-              return (
-                <React.Fragment key={j}>
-                  <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>
-                    {b.COD_ESPECIE} / {b.ESPECIE}
-                  </h4>
-                  <Card>
-                    <Table
-                      className="caucionable"
-                      columns={
-                        i + j === 0
-                          ? [
-                              { className: "text-center", content: "Fecha" },
-                              { className: "text-left", content: "Descripción" },
-                              { className: "text-right", content: "Cantidad VN" },
-                              { className: "text-center", content: "Aforo" },
-                              { className: "text-right", content: "Saldo" },
-                              { className: "text-right", content: "Monto Caucionable" },
-                            ]
-                          : []
-                      }
-                      data={b.table}
-                    />
-                  </Card>
-                </React.Fragment>
-              );
-            })}
-          </React.Fragment>
-        ))}
+      {especies?.length > 0 &&
+        especies.map((b, j) => {
+          return (
+            <React.Fragment key={j}>
+              <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>
+                {b.COD_ESPECIE} / {b.ESPECIE}
+              </h4>
+              <Card>
+                <Table
+                  className="caucionable"
+                  columns={
+                    j === 0
+                      ? [
+                          { className: "text-center", content: "Fecha" },
+                          { className: "text-left", content: "Descripción" },
+                          { className: "text-right", content: "Cantidad VN" },
+                          { className: "text-center", content: "Aforo" },
+                          { className: "text-right", content: "Saldo" },
+                          { className: "text-right", content: "Monto Caucionable" },
+                        ]
+                      : []
+                  }
+                  data={b.table}
+                />
+              </Card>
+            </React.Fragment>
+          );
+        })}
     </>
   );
 };
