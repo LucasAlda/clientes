@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiSearch, FiBell, FiX, FiMenu } from "react-icons/fi";
+import { FiSearch, FiBell, FiMenu } from "react-icons/fi";
 import { withRouter } from "react-router";
 import "../assets/styles/Navbar.css";
 

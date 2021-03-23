@@ -14,6 +14,8 @@ const Operaciones = ({ match, comitenteId }) => {
       });
   }, [comitenteId]);
 
+  console.log(data);
+
   const dataTableOp = [];
   let totalOp = 0;
   (data.operaciones || []).forEach((row) => {
@@ -58,7 +60,7 @@ const Operaciones = ({ match, comitenteId }) => {
       cells: [
         { className: "text-center", content: new Date(row.FecConcert).format() },
         { className: "text-center", content: row.Operacion },
-        { className: "text-right", content: row.Cantidad.format() },
+        { className: "text-right", content: (row.Cantidad || 0).format() },
         { className: "text-center", content: row.Plazo },
         { className: "text-center", content: row.Tasa.format() + "%" },
         { className: "text-right", content: row.MontoCont.format() },
