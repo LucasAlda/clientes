@@ -26,7 +26,7 @@ const Saldos = ({ history, show }) => {
           cells: [
             { className: "text-center", content: row.COMITENTE },
             { content: row.DESCRIPCION },
-            { className: "text-right text-red", content: row.MONTO_PESOS.format() },
+            { className: `text-right ${row.MONTO_PESOS > 0 ? "" : " text-red"}`, content: row.MONTO_PESOS.format() },
             { className: "text-right ", content: (row.CAUCIONABLE || 0).format() },
             { className: "text-right", content: (row.CAUCIONADO_HOY || 0).format() },
             {

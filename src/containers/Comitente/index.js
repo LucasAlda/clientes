@@ -166,12 +166,16 @@ const Comitente = ({ history, match, location, search, user }) => {
           <Route
             exact
             path={`${match.path}/recibos-comprobantes`}
-            render={(props) => <RecibosComprobantes comitenteId={comitenteId} year={year} user={user} {...props} />}
+            render={(props) => (
+              <RecibosComprobantes comitenteId={comitenteId} comitente={comitente} year={year} user={user} {...props} />
+            )}
           />
           <Route
             exact
             path={`${match.path}/transferencias`}
-            render={(props) => <Transferencias comitenteId={comitenteId} year={year} user={user} {...props} />}
+            render={(props) => (
+              <Transferencias comitenteId={comitenteId} comitente={comitente} year={year} user={user} {...props} />
+            )}
           />
           <Route
             exact

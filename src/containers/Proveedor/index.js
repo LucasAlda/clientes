@@ -109,7 +109,9 @@ const Comitente = ({ history, match, location, search, user }) => {
           <Route
             exact
             path={`${match.path}/facturas`}
-            render={(props) => <Facturas comitenteId={comitenteId} user={user} year={year} {...props} />}
+            render={(props) => (
+              <Facturas comitenteId={comitenteId} user={user} year={year} {...props} comitente={comitente} />
+            )}
           />
           <Route
             exact

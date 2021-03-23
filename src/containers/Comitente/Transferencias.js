@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { FiFileText, FiTrash2, FiUpload } from "react-icons/fi";
+import { FiFileText, FiMail, FiTrash2, FiUpload } from "react-icons/fi";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import { Table } from "../../components/Table";
 import Modal from "./ModalDigitalizacion";
-
+import { confirmAlert } from "../../components/Confirm";
 import authFetch from "../../helpers/authFetch";
 import { useToasts } from "react-toast-notifications";
 
-const Transferencias = ({ match, comitenteId, year, user }) => {
+const Transferencias = ({ match, comitenteId, year, user, comitente }) => {
   const { addToast } = useToasts();
   const [data, setData] = useState([]);
   const [modal, setModal] = useState({ show: false, data: {} });
@@ -69,6 +69,48 @@ const Transferencias = ({ match, comitenteId, year, user }) => {
       });
   };
 
+  const handleMail = (row) => {
+    confirmAlert({
+      title: "Enviar Mail",
+      message: `Enviar mail de ${row.TipoTransferencia} por $${(row.MontoTotal || 0).format()} del dia ${new Date(
+        row.FECHA
+      ).format()}`,
+      buttons: [
+        {
+          label: "Enviar",
+          onClick: () => {
+            fetch(`https://extras.aldazabal.com.ar/clientes/mail/transferencia/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                mail: comitente.MAIL,
+                tipo: row.TipoTransferencia,
+                link: row.LINK,
+                denominacion: comitente.NOMBRE_CUENTA,
+                fecha: row.FECHA,
+                comitente: row.Comitente,
+                tipoCuenta: row.TipoCuenta,
+                ambito: row.Ambito,
+              }),
+            })
+              .then((data) => authFetch(`/comitente/transferencias/${comitenteId}/${year}`))
+              .then((data) => {
+                setData(data);
+                addToast("Mail de transferencia enviado!", { appearance: "success" });
+              })
+              .catch((err) => {
+                console.log(err);
+                addToast("Error enviando mail de transferencia!", { appearance: "error" });
+              });
+          },
+        },
+        { label: "Cancelar", onClick: () => {}, color: "transparent" },
+      ],
+    });
+  };
+
   const dataTable = [];
 
   data.forEach((row) => {
@@ -78,10 +120,12 @@ const Transferencias = ({ match, comitenteId, year, user }) => {
         { className: "text-center", content: row.TipoTransferencia },
         { className: "text-center", content: row.Ambito },
         { className: "text-center", content: row.TipoCuenta },
-        { className: "text-right", style: { paddingRight: 50 }, content: row.MontoTotal.format() },
+        { className: "text-right", style: { paddingRight: 50 }, content: (row.MontoTotal || 0).format() },
         {
           className: "text-left",
-          content: <Acciones row={row} setModal={setModal} handleDelete={handleDelete} user={user} />,
+          content: (
+            <Acciones row={row} setModal={setModal} handleDelete={handleDelete} handleMail={handleMail} user={user} />
+          ),
         },
       ],
     });
@@ -112,18 +156,33 @@ const Transferencias = ({ match, comitenteId, year, user }) => {
   );
 };
 
-const Acciones = ({ row, setModal, user, handleDelete }) => {
+const Acciones = ({ row, setModal, user, handleDelete, handleMail }) => {
+  console.log(row);
   return (
     <>
       {row.LINK ? (
-        <Button
-          icon
-          size="xs"
-          color="green"
-          onClick={() => window.open("https://exe.aldazabal.com.ar/clientes/" + row.LINK, "_blank")}
-        >
-          <FiFileText />
-        </Button>
+        <>
+          <Button
+            icon
+            size="xs"
+            color="green"
+            onClick={() => window.open("https://exe.aldazabal.com.ar/clientes/" + row.LINK, "_blank")}
+          >
+            <FiFileText />
+          </Button>
+          <Button icon size="xs" color={row.MAIL ? "yellow" : "primary"} onClick={() => handleMail(row)}>
+            <FiMail
+              className="mail"
+              style={{
+                strokeWidth: 1,
+                fill: row.MAIL ? "#575757" : "#fff",
+                color: row.MAIL ? "rgb(255 202 40)" : "hsl(220, 80%, 60%)",
+                height: 20,
+                width: 20,
+              }}
+            />
+          </Button>
+        </>
       ) : (
         <Button icon size="xs" onClick={() => setModal({ show: true, data: row })}>
           <FiUpload style={{ strokeWidth: 3 }} />

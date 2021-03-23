@@ -8,7 +8,7 @@ import Modal from "./ModalFacturas";
 import { useToasts } from "react-toast-notifications";
 import { confirmAlert } from "../../components/Confirm";
 
-const Facturas = ({ match, comitenteId, user, year }) => {
+const Facturas = ({ match, comitenteId, user, year, comitente }) => {
   const [data, setData] = useState([]);
   const [modal, setModal] = useState({ show: false, data: {} });
   const { addToast } = useToasts();
@@ -65,6 +65,42 @@ const Facturas = ({ match, comitenteId, user, year }) => {
     });
   };
 
+  const handleMail = (row) => {
+    confirmAlert({
+      title: "Enviar Mail",
+      message: `Enviar mail de ${row.Punto_Vta}-${row.Nro_Fac} por $${(row.Importe_Total || 0).format()}`,
+      buttons: [
+        {
+          label: "Enviar",
+          onClick: () => {
+            fetch(`https://extras.aldazabal.com.ar/clientes/mail/factura/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                mail: comitente.MAIL,
+                link: row.link,
+                esco: row.esco,
+                banco: row.banco,
+              }),
+            })
+              .then((data) => authFetch(`/proveedor/facturas/${comitenteId}/${year}`))
+              .then((data) => {
+                setData(data);
+                addToast("Mail de Factura Enviado!", { appearance: "success" });
+              })
+              .catch((err) => {
+                console.log(err);
+                addToast("Error enviando Factura!", { appearance: "error" });
+              });
+          },
+        },
+        { label: "Cancelar", onClick: () => {}, color: "transparent" },
+      ],
+    });
+  };
+
   const dataTable = [];
 
   data.forEach((row) => {
@@ -83,7 +119,9 @@ const Facturas = ({ match, comitenteId, user, year }) => {
         },
         {
           className: "text-left",
-          content: <Acciones row={row} user={user} handleDelete={handleDelete} setModal={setModal} />,
+          content: (
+            <Acciones row={row} user={user} handleDelete={handleDelete} setModal={setModal} handleMail={handleMail} />
+          ),
         },
       ],
     });
@@ -114,7 +152,7 @@ const Facturas = ({ match, comitenteId, user, year }) => {
   );
 };
 
-const Acciones = ({ row, user, handleDelete, setModal }) => {
+const Acciones = ({ row, user, handleDelete, setModal, handleMail }) => {
   return (
     <>
       {row.esco ? (
@@ -154,7 +192,7 @@ const Acciones = ({ row, user, handleDelete, setModal }) => {
         </Button>
       )}
       {(row.esco || row.banco || row.link) && (
-        <Button size="xs" icon color={row.mail ? "yellow" : "primary"}>
+        <Button size="xs" icon color={row.mail ? "yellow" : "primary"} onClick={() => handleMail(row)}>
           <FiMail
             className="mail"
             style={{
