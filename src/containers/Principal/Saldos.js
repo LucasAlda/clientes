@@ -17,6 +17,7 @@ const Saldos = ({ history, show }) => {
           { content: "Comitente" },
           { className: "text-left", content: "Descripción" },
           { className: "text-right", content: "Monto Pesos" },
+          { className: "text-right", content: "Caucionable" },
           { className: "text-right", content: "Caucionado Hoy" },
           { className: "text-right", content: "Saldo" },
         ]}
@@ -26,6 +27,7 @@ const Saldos = ({ history, show }) => {
             { className: "text-center", content: row.COMITENTE },
             { content: row.DESCRIPCION },
             { className: "text-right text-red", content: row.MONTO_PESOS.format() },
+            { className: "text-right ", content: (row.CAUCIONABLE || 0).format() },
             { className: "text-right", content: (row.CAUCIONADO_HOY || 0).format() },
             {
               className: `text-right ${row.MONTO_PESOS + (row.CAUCIONADO_HOY || 0) < 0 ? "text-red" : ""}`,

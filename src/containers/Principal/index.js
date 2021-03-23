@@ -146,7 +146,7 @@ const Principal = ({ location, history, search, setSearch, user }) => {
               { label: "Liq Mer MEP", value: "mercado-mep" },
             ]}
           />
-          <div className="bottom-section">
+          <div className={`bottom-section ${activeTab === "tickets" ? " tickets-active" : ""}`}>
             <Card>
               <Tickets show={activeTab === "tickets"} history={history} user={user} />
               <Saldos show={activeTab === "saldos"} history={history} />
@@ -156,7 +156,7 @@ const Principal = ({ location, history, search, setSearch, user }) => {
                 type={activeTab}
               />
             </Card>
-            <Card>
+            <Card style={{ display: activeTab === "tickets" ? "block" : "none" }}>
               <Birthdays />
             </Card>
           </div>

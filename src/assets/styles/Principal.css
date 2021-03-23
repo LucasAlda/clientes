@@ -42,7 +42,7 @@
 }
 
 @media (min-width: 1200px) {
-  .bottom-section {
+  .bottom-section.tickets-active {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 20px;
