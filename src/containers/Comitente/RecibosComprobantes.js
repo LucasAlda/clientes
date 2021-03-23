@@ -83,7 +83,7 @@ const RecibosComprobantes = ({ match, comitenteId, year, user, comitente }) => {
                 comitente: row.numcomitente,
                 fecha: row.fechaconcertacion,
                 codMoneda: row.codmoneda === 2 ? "DOLAR MEP" : row.codmoneda === 4 ? "DOLAR CABLE" : "PESOS",
-                importe: row.IMPORTE_TOTAL,
+                importe: (row.IMPORTE_TOTAL || 0).format(),
                 cod: row.codtesoreriamov,
               }),
             })
