@@ -4,6 +4,7 @@ import "../assets/styles/Table.css";
 
 export const Table = React.memo(
   ({
+    reference,
     columns,
     data,
     separator = false,
@@ -145,7 +146,7 @@ export const Table = React.memo(
     }
 
     return (
-      <table className={`table${className ? ` ${className}` : ""}`} style={style}>
+      <table ref={reference} className={`table${className ? ` ${className}` : ""}`} style={style}>
         <thead>
           <tr>
             {columns.map((col, i) => (

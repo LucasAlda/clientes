@@ -48,6 +48,10 @@ body {
   width: 100%;
 }
 
+.react-datepicker-popper > div {
+  transform: translateX(-40px);
+}
+
 @media (min-width: 1200px) {
   .container {
     padding: 0 40px 40px 40px;

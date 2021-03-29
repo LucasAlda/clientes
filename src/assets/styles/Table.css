@@ -131,7 +131,7 @@ tr:hover td {
 }
 
 .th-filter {
-  padding: 0 0 1px 0 !important;
+  padding: 0 0 1px 0;
   overflow: hidden;
 }
 
@@ -140,7 +140,7 @@ tr:hover td {
 }
 
 .th-filter.shadow {
-  padding: 0 0 4px 0 !important;
+  padding: 0 0 4px 0;
 }
 
 .th-filter.shadow div {
@@ -153,10 +153,10 @@ th.th-filter input {
   width: calc(100% - 6px);
   top: 0;
   left: 3px;
-  padding: 5px 11px !important;
-  margin-top: 3px !important;
-  font-size: 14px !important;
-  line-height: 1 !important;
+  padding: 5px 11px;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1;
 }
 
 td.order-td {
@@ -190,48 +190,48 @@ input:focus {
 }
 
 tr td span.neg {
-  color: #0397e0 !important;
+  color: #0397e0;
 }
 
 tr.header.text-error td {
-  background: #f38787 !important;
-  color: #fff !important;
+  background: #f38787;
+  color: #fff;
 }
 
 tr.header td {
-  font-weight: 700 !important;
-  background-color: #ecf0f3 !important;
+  font-weight: 700;
+  background-color: #ecf0f3;
 }
 
 tr.total td {
   position: sticky;
   bottom: 0;
   border: 0;
-  font-weight: 700 !important;
-  background-color: #ecf0f3 !important;
+  font-weight: 700;
+  background-color: #ecf0f3;
 }
 
 tr.separator td {
-  font-weight: 700 !important;
+  font-weight: 700;
   color: #ffffff;
-  background-color: hsl(220, 50%, 45%) !important;
+  background-color: hsl(220, 50%, 45%);
   border-color: hsl(220, 50%, 45%);
   padding: 0 10px;
 }
 
 tr.separator.main-separator td {
-  background-color: hsl(220, 40%, 10%) !important;
+  background-color: hsl(220, 40%, 10%);
   border-color: hsl(220, 40%, 10%);
 }
 
 tr.separator.sub-separator td {
-  color: #575757 !important;
-  background-color: hsl(220, 15%, 85%) !important;
+  color: #575757;
+  background-color: hsl(220, 15%, 85%);
   border-color: hsl(220, 15%, 85%);
 }
 
 tr.separator td span.neg {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 table.position td,
@@ -241,8 +241,8 @@ table.caucionable td {
 }
 
 table.caucionable tr.separator.sub-separator td {
-  background-color: hsl(220, 15%, 90%) !important;
-  border-color: hsl(220, 15%, 90%) !important;
+  background-color: hsl(220, 15%, 90%);
+  border-color: hsl(220, 15%, 90%);
 }
 
 table.caucionable tr td:first-of-type,

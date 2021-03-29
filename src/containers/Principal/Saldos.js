@@ -13,13 +13,37 @@ const Saldos = ({ history, show }) => {
   return (
     <div style={{ display: show ? "block" : "none" }}>
       <Table
+        style={{ overflow: "inherit" }}
         columns={[
-          { content: "Comitente" },
-          { className: "text-left", content: "Descripción" },
-          { className: "text-right", content: "Monto Pesos" },
-          { className: "text-right", content: "Caucionable" },
-          { className: "text-right", content: "Caucionado Hoy" },
-          { className: "text-right", content: "Saldo" },
+          {
+            content: "Comitente",
+            style: { position: "sticky", top: 0, background: "#f9fafb", boxShadow: "0px 2px 2px #e5e7eb" },
+          },
+          {
+            className: "text-left",
+            style: { position: "sticky", top: 0, background: "#f9fafb", boxShadow: "0px 2px 2px #e5e7eb" },
+            content: "Descripción",
+          },
+          {
+            style: { position: "sticky", top: 0, background: "#f9fafb", boxShadow: "0px 2px 2px #e5e7eb" },
+            className: "text-right",
+            content: "Monto Pesos",
+          },
+          {
+            style: { position: "sticky", top: 0, background: "#f9fafb", boxShadow: "0px 2px 2px #e5e7eb" },
+            className: "text-right",
+            content: "Caucionable",
+          },
+          {
+            style: { position: "sticky", top: 0, background: "#f9fafb", boxShadow: "0px 2px 2px #e5e7eb" },
+            className: "text-right",
+            content: "Caucionado Hoy",
+          },
+          {
+            style: { position: "sticky", top: 0, background: "#f9fafb", boxShadow: "0px 2px 2px #e5e7eb" },
+            className: "text-right",
+            content: "Saldo",
+          },
         ]}
         data={data.map((row) => ({
           handleClick: () => history.push({ pathname: `/comitente/${row.COMITENTE}/caucionable/` }),

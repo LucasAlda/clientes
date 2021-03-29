@@ -27,7 +27,7 @@ const customDate = () => {
   //eslint-disable-next-line no-extend-native
   Date.prototype.format = function (separator = "-") {
     if (!this) return "";
-    const [yy, mm, dd] = this.toISOString().split("-");
+    const [dd, mm, yy] = this.toLocaleDateString("en-GB").split("/");
 
     return dd + separator + mm + separator + yy;
   };
@@ -35,18 +35,15 @@ const customDate = () => {
   //eslint-disable-next-line no-extend-native
   Date.prototype.formatFull = function (separator = "/") {
     if (!this) return "";
-    const [date, hour] = this.toOldString().split("T");
-    const [yy, mm, dd] = date.split("-");
-    let [hh, min, ss] = hour.split(":");
-    ss = ss.split(".")[0];
+    const [dd, mm, yy] = this.toLocaleDateString("en-GB").split("/");
 
-    return dd + separator + mm + separator + yy + ` ${hh - 3}:${min}:${ss}`;
+    return dd + separator + mm + separator + yy + " " + this.toLocaleTimeString("en-GB");
   };
 
   //eslint-disable-next-line no-extend-native
   Date.prototype.formatDB = function (separator = "-") {
     if (!this) return "";
-    const [yy, mm, dd] = this.toISOString().split("-");
+    const [dd, mm, yy] = this.toLocaleDateString("en-GB").split("/");
 
     return yy + separator + mm + separator + dd;
   };

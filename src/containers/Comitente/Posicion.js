@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import Card from "../../components/Card";
+import Copy from "../../components/Copy";
 import { Table } from "../../components/Table";
 
-const Posicion = ({ match, comitenteId, posicion }) => {
+const Posicion = ({ match, comitenteId, posicion, loading }) => {
+  const tablaPosicion = useRef(undefined);
   const tipoData = {
     "##ESPECIES##": { order: 1, name: "Especies" },
     "##SERIES##": { order: 2, name: "Opciones" },
@@ -102,6 +104,7 @@ const Posicion = ({ match, comitenteId, posicion }) => {
       {dataTable?.length > 0 && (
         <Card style={{ marginTop: 15 }}>
           <Table
+            reference={tablaPosicion}
             className="position"
             columns={[
               { content: "Tipo" },
@@ -119,8 +122,12 @@ const Posicion = ({ match, comitenteId, posicion }) => {
         </Card>
       )}
       {dataTable?.length === 0 && (
-        <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>No tiene una Posición</h4>
+        <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>
+          {loading ? "No tiene una Posición" : "Cargando Posición"}
+        </h4>
       )}
+
+      {dataTable.length > 0 && <Copy style={{ marginTop: 10 }} reference={tablaPosicion} />}
     </>
   );
 };

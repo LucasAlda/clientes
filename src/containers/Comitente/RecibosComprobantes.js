@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiFileText, FiMail, FiTrash2 } from "react-icons/fi";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
@@ -7,8 +7,10 @@ import Modal from "./ModalDigitalizacion";
 import authFetch from "../../helpers/authFetch";
 import { useToasts } from "react-toast-notifications";
 import { confirmAlert } from "../../components/Confirm";
+import Copy from "../../components/Copy";
 
 const RecibosComprobantes = ({ match, comitenteId, year, user, comitente }) => {
+  const tablaRecComp = useRef(undefined);
   const { addToast } = useToasts();
   const [data, setData] = useState([]);
   const [modal, setModal] = useState({ show: false, data: {} });
@@ -118,11 +120,12 @@ const RecibosComprobantes = ({ match, comitenteId, year, user, comitente }) => {
           className: "text-left",
           content: row.codmoneda === 2 ? "DOLAR MEP" : row.codmoneda === 4 ? "DOLAR CABLE" : "PESOS",
         },
-        { className: "text-right", content: row.IMPORTE_TOTAL.format() },
+        { className: "text-right", content: row.IMPORTE_TOTAL.format(), order: row.IMPORTE_TOTAL },
         { className: "text-left", style: { paddingLeft: 30 }, content: row.nrocomprobante },
-        { className: "text-right", style: { paddingRight: 30 }, content: row.IMPORTE_PESOS.format() },
+        { className: "text-right", content: row.IMPORTE_PESOS.format(), order: row.IMPORTE_PESOS },
         {
           className: "text-left",
+          style: { paddingLeft: 30 },
           content: (
             <Acciones row={row} setModal={setModal} user={user} handleDelete={handleDelete} handleMail={handleMail} />
           ),
@@ -134,21 +137,27 @@ const RecibosComprobantes = ({ match, comitenteId, year, user, comitente }) => {
   return (
     <>
       {dataTable?.length > 0 ? (
-        <Card style={{ marginTop: 15 }}>
-          <Table
-            className="posicions"
-            columns={[
-              { className: "text-center", content: "Fecha" },
-              { className: "text-center", content: "Tipo" },
-              { className: "text-left", content: "Cod. Moneda" },
-              { className: "text-right", content: "Importe Total" },
-              { className: "text-left", style: { paddingLeft: 30 }, content: "Comprobante" },
-              { className: "text-right", style: { paddingRight: 30 }, content: "Importe Pesos" },
-              { className: "text-left", content: "Acciones" },
-            ]}
-            data={dataTable}
-          />
-        </Card>
+        <>
+          <Card style={{ marginTop: 15 }}>
+            <Table
+              reference={tablaRecComp}
+              className="posicions"
+              columns={[
+                { className: "text-center", content: "Fecha" },
+                { className: "text-center", content: "Tipo" },
+                { className: "text-left", content: "Cod. Moneda" },
+                { className: "text-right", content: "Importe Total" },
+                { className: "text-left", style: { paddingLeft: 30 }, content: "Comprobante" },
+                { className: "text-right", content: "Importe Pesos" },
+                { className: "text-left", style: { paddingLeft: 30 }, content: "Acciones" },
+              ]}
+              tableTotal
+              colTotals={[3, 5]}
+              data={dataTable}
+            />
+          </Card>
+          <Copy style={{ marginTop: 10 }} actions={true} reference={tablaRecComp} />
+        </>
       ) : (
         <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>
           No tiene Recibos o comprobantes en {year}

@@ -16,6 +16,12 @@ import RecibosComprobantes from "./RecibosComprobantes";
 import Transferencias from "./Transferencias";
 import Documentos from "./Documentos";
 import { SelectInput } from "../../components/Input";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+const DateComponent = ({ value, onClick, posicion = {} }) => (
+  <span onClick={onClick}>{posicion.fecha ? new Date(posicion.fecha).formatFull() : "-"}</span>
+);
 
 const Comitente = ({ history, match, location, search, user }) => {
   const { addToast } = useToasts();
@@ -24,15 +30,18 @@ const Comitente = ({ history, match, location, search, user }) => {
 
   const [comitente, setComitente] = useState({});
   const [year, setYear] = useState("2021");
-  const [posicion, setPosicion] = useState({ fecha: undefined, data: [] });
+  const [posicion, setPosicion] = useState({ fecha: new Date(), loading: true, data: [] });
 
   useEffect(() => {
     authFetch(`/comitente/${comitenteId}`)
       .then((data) => setComitente(data))
       .catch((err) => addToast("Error cargando Comitente!", { appearance: "error" }));
 
-    authFetch(`/comitente/posicion/${comitenteId}`)
-      .then((data) => setPosicion({ fecha: new Date(), data }))
+    authFetch(`/comitente/posicion/${comitenteId}`, {
+      method: "POST",
+      body: { fecha: new Date(posicion.fecha).toOldString() },
+    })
+      .then((data) => setPosicion(data))
       .catch((err) => addToast("Error cargando posición!", { appearance: "error" }));
     //eslint-disable-next-line
   }, [comitenteId]);
@@ -90,15 +99,43 @@ const Comitente = ({ history, match, location, search, user }) => {
             ]}
           />
           {activeTab === "posicion" && (
-            <span style={{ fontSize: 13 }}>
-              {posicion.fecha ? posicion.fecha.formatFull() : "-"}
+            <span style={{ fontSize: 13, display: "flex", alignItems: "center" }}>
+              <DatePicker
+                selected={new Date(posicion.fecha)}
+                maxDate={new Date()}
+                onChange={(date) => {
+                  let actualDate = new Date(date);
+                  if (
+                    actualDate.getDate() === new Date().getDate() &&
+                    actualDate.getMonth() === new Date().getMonth() &&
+                    actualDate.getFullYear() === new Date().getFullYear()
+                  ) {
+                    actualDate = new Date();
+                  } else {
+                    actualDate.setHours(17, 30, 0);
+                  }
+                  authFetch(`/comitente/posicion/${comitenteId}`, {
+                    method: "POST",
+                    body: { fecha: new Date(actualDate).toOldString() },
+                  })
+                    .then((data) => {
+                      setPosicion(data);
+                      addToast("Posición actualizada!", { appearance: "success" });
+                    })
+                    .catch((err) => addToast("Error cargando posición!", { appearance: "error" }));
+                }}
+                customInput={<DateComponent posicion={posicion} />}
+              />
               <Button
                 style={{ marginLeft: 5 }}
                 color="transparent"
                 onClick={() =>
-                  authFetch(`/comitente/posicion/${comitenteId}`)
+                  authFetch(`/comitente/posicion/${comitenteId}`, {
+                    method: "POST",
+                    body: { fecha: new Date(posicion.fecha).toOldString() },
+                  })
                     .then((data) => {
-                      setPosicion({ fecha: new Date(), data });
+                      setPosicion(data);
                       addToast("Posición actualizada!", { appearance: "success" });
                     })
                     .catch((err) => addToast("Error cargando posición!", { appearance: "error" }))
