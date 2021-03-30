@@ -14,8 +14,6 @@ const Operaciones = ({ match, comitenteId }) => {
       });
   }, [comitenteId]);
 
-  console.log(data);
-
   const dataTableOp = [];
   let totalOp = 0;
   (data.operaciones || []).forEach((row) => {

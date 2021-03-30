@@ -2,23 +2,23 @@ const customDate = () => {
   //eslint-disable-next-line no-extend-native
   Date.prototype.toOldString = Date.prototype.toISOString;
 
-  // Date = class extends Date {
-  //   constructor(options) {
-  //     console.log(options);
-
-  //     if (typeof options === "number") {
-  //       super(options);
-  //     } else if (typeof options === "string") {
-  //       if (options.split("T").length > 1) {
-  //         super(options);
-  //       } else {
-  //         super(options + "T00:00:00");
-  //       }
-  //     } else {
-  //       super(Date.now());
-  //     }
-  //   }
-  // };
+  Date = class extends Date {
+    constructor(options, a, b) {
+      if (a && b) {
+        super(options + "-" + a + "-" + b + "T00:00:00");
+      } else if (typeof options === "number") {
+        super(options);
+      } else if (typeof options === "string") {
+        if (options.split("T").length > 1) {
+          super(options);
+        } else {
+          super(options + "T00:00:00");
+        }
+      } else {
+        super(Date.now());
+      }
+    }
+  };
   //eslint-disable-next-line no-extend-native
   Date.prototype.toISOString = function () {
     return this.toOldString().split("T")[0];
