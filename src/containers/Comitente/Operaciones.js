@@ -26,11 +26,11 @@ const Operaciones = ({ match, comitenteId }) => {
         { className: "text-center", content: row.SERESP },
         { className: "text-center", content: row.OPERACION },
         { className: "text-center", content: row.Plazo },
-        { className: "text-right", content: row.CANT.format() },
-        { className: "text-right", content: row.PPP.format() },
-        { className: "text-right", content: row.MonedaSimbolo + " " + row.BRUTO.format() },
-        { className: "text-center", content: row.ARANCEL.format() },
-        { className: "text-right", content: row.ArancelPesos.format() },
+        { className: "text-right", content: (row.CANT || 0).format() },
+        { className: "text-right", content: (row.PPP || 0).format() },
+        { className: "text-right", content: row.MonedaSimbolo + " " + (row.BRUTO || 0).format() },
+        { className: "text-center", content: (row.ARANCEL || 0).format() },
+        { className: "text-right", content: (row.ArancelPesos || 0).format() },
         {
           className: "text-right",
           content: (
