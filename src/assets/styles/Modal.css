@@ -5,6 +5,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  overflow: auto;
 }
 
 .modal-container .backdrop {
@@ -24,7 +25,6 @@
 
 .modal {
   max-width: 90%;
-  overflow: visible;
   outline: 0;
   margin: 30px auto 0 auto;
   background-color: #fff;
@@ -81,7 +81,7 @@
 }
 
 .modal-lg {
-  width: 1050px;
+  width: 1200px;
 }
 
 .modal-header {

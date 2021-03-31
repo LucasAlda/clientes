@@ -10,6 +10,7 @@ import axiosConfig from "../helpers/axios";
 import numbersConfig from "../helpers/numbers";
 import datesConfig from "../helpers/dates";
 import authFetch from "../helpers/authFetch";
+import ModalEspecies from "../containers/Principal/ModalEspecies";
 
 axiosConfig();
 numbersConfig();
@@ -20,6 +21,7 @@ const App = () => {
   const [search, setSearch] = useState({ type: "activos", text: "" });
   const [auth, setAuth] = useState(window.localStorage.getItem("token"));
   const [user, setUser] = useState({});
+  const [modalEspecies, setModalEspecies] = useState({ show: false, action: "SHOW", data: {} });
 
   useEffect(() => {
     if (auth) {
@@ -37,7 +39,7 @@ const App = () => {
   return (
     <BrowserRouter>
       {auth && window.location.pathname.split("/")[1] !== "login" && (
-        <Navbar search={search} setSearch={setSearch} user={user} />
+        <Navbar search={search} setSearch={setSearch} user={user} setModalEspecies={setModalEspecies} />
       )}
       <Switch>
         <Route exact path="/login" render={(props) => <Login {...props} setUser={setUser} setAuth={setAuth} />} />
@@ -49,6 +51,7 @@ const App = () => {
           render={(props) => <Principal {...props} user={user} search={search} setSearch={setSearch} />}
         />
       </Switch>
+      <ModalEspecies modal={modalEspecies} setModal={setModalEspecies} />
     </BrowserRouter>
   );
 };

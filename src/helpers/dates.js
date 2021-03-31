@@ -2,11 +2,14 @@ const customDate = () => {
   //eslint-disable-next-line no-extend-native
   Date.prototype.toOldString = Date.prototype.toISOString;
 
+  //eslint-disable-next-line no-native-reassign
   Date = class extends Date {
-    constructor(options, a, b) {
-      if (a && b) {
-        super(options + "-" + a + "-" + b + "T00:00:00");
+    constructor(options, month, day) {
+      if (month && day) {
+        super(options + "-" + (month > 9 ? month : `0${month}`) + "-" + (day > 9 ? day : `0${day}`) + "T00:00:00");
       } else if (typeof options === "number") {
+        super(options);
+      } else if (typeof options === "object") {
         super(options);
       } else if (typeof options === "string") {
         if (options.split("T").length > 1) {

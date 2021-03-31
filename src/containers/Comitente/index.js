@@ -18,6 +18,7 @@ import Documentos from "./Documentos";
 import { SelectInput } from "../../components/Input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Corriente from "./Corriente";
 
 const DateComponent = ({ value, onClick, posicion = {} }) => (
   <span onClick={onClick}>{posicion.fecha ? new Date(posicion.fecha).formatFull() : "-"}</span>
@@ -92,6 +93,7 @@ const Comitente = ({ history, match, location, search, user }) => {
               { label: "Posición", value: "posicion" },
               { label: "Operaciones del Día", value: "operaciones-del-dia" },
               { label: "Caucionable", value: "caucionable" },
+              { label: "Corriente", value: "corriente" },
               { label: "Rec y Comp", value: "recibos-comprobantes" },
               { label: "Transferencias", value: "transferencias" },
               { label: "Documentos", value: "documentos" },
@@ -104,7 +106,7 @@ const Comitente = ({ history, match, location, search, user }) => {
                 selected={new Date(posicion.fecha)}
                 maxDate={new Date()}
                 onChange={(date) => {
-                  let actualDate = new Date(date);
+                  let actualDate = date;
                   if (
                     actualDate.getDate() === new Date().getDate() &&
                     actualDate.getMonth() === new Date().getMonth() &&
@@ -116,7 +118,7 @@ const Comitente = ({ history, match, location, search, user }) => {
                   }
                   authFetch(`/comitente/posicion/${comitenteId}`, {
                     method: "POST",
-                    body: { fecha: new Date(actualDate).toOldString() },
+                    body: { fecha: actualDate.toOldString() },
                   })
                     .then((data) => {
                       setPosicion(data);
@@ -199,6 +201,11 @@ const Comitente = ({ history, match, location, search, user }) => {
             exact
             path={`${match.path}/caucionable`}
             render={(props) => <Caucionable comitenteId={comitenteId} {...props} />}
+          />
+          <Route
+            exact
+            path={`${match.path}/corriente`}
+            render={(props) => <Corriente comitenteId={comitenteId} {...props} />}
           />
           <Route
             exact

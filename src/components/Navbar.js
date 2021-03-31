@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiSearch, FiBell, FiMenu } from "react-icons/fi";
 import { withRouter } from "react-router";
+import Select from "react-select";
+import { AutoSuggest } from "react-autosuggestions";
 import "../assets/styles/Navbar.css";
+import authFetch from "../helpers/authFetch";
 
-const Navbar = ({ location, history, search, setSearch, user }) => {
+const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }) => {
   const [open, setOpen] = useState(false);
   const [comitente, setComitente] = useState("");
   const [especie, setEspecie] = useState("");
+  const [especies, setEspecies] = useState([]);
   const section = location.pathname.split("/")[1] || "principal";
+
+  useEffect(() => {
+    authFetch("/search/especies").then((data) => {
+      setEspecies(data);
+    });
+  });
 
   const onSubmitComitente = (e) => {
     e.preventDefault();
@@ -16,9 +26,10 @@ const Navbar = ({ location, history, search, setSearch, user }) => {
     setOpen(false);
     if (section !== "principal") history.push({ pathname: "/" });
   };
+
   const onSubmitEspecie = (e) => {
     e.preventDefault();
-    console.log(especie);
+    setModalEspecies({ show: true, action: "SHOW", data: { especie } });
   };
 
   const searchComitente = (
@@ -41,21 +52,15 @@ const Navbar = ({ location, history, search, setSearch, user }) => {
   );
 
   const searchEspecie = (
-    <form onSubmit={onSubmitEspecie}>
-      <div className="nav-search">
-        <input
-          name="text"
-          type="text"
-          placeholder="Buscar Especie"
-          value={especie}
-          onChange={(e) => setEspecie(e.target.value.toUpperCase())}
-          autoComplete="off"
-        />
-        <button type="button">
-          <FiSearch className="search-icon" />
-        </button>
-      </div>
-    </form>
+    <div className="nav-search-select">
+      <Select
+        onChange={(e) => e && setModalEspecies({ show: true, data: { especie: e.value } })}
+        options={especies.map((a) => ({ label: a.value, value: a.value }))}
+      />
+      <button type="button" onClick={(e) => setModalEspecies((prev) => ({ ...prev, show: true }))}>
+        <FiSearch className="search-icon" />
+      </button>
+    </div>
   );
 
   return (

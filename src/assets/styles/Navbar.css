@@ -2,8 +2,35 @@ nav {
   width: 100%;
   background-color: hsl(220, 30%, 20%);
   height: 61px;
-  overflow: hidden;
   transition: height 300ms ease-in-out;
+}
+
+.nav-search-select {
+  position: relative;
+}
+
+.nav-search-select > div {
+  width: 250px;
+}
+
+.nav-search-select > div > div:first-of-type {
+  background-color: hsl(217, 19%, 27%);
+  border: none;
+  height: 40px;
+  border-radius: 6px;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.nav-search-select > div > div:first-of-type > div:first-of-type > div {
+  color: #d1d5db;
+}
+.nav-search-select > div > div:first-of-type > div:first-of-type > div[class*="placeholder"] {
+  color: hsl(216, 12%, 65%);
+}
+
+.nav-search-select > div > div:first-of-type > div:nth-of-type(2) {
+  display: none;
 }
 
 nav.open {
@@ -134,15 +161,19 @@ nav .nav-right .actions .menu-button svg {
 }
 
 nav .mobile-menu {
-  display: none;
   grid-template-columns: 1fr;
   justify-content: center;
-  padding-bottom: 20px;
+  display: grid;
+  gap: 20px;
+  overflow: hidden;
+  height: 0;
+  padding-bottom: 0;
+  transition: all 300ms ease-in-out;
 }
 
 nav.open .mobile-menu {
-  display: grid;
-  gap: 20px;
+  padding-bottom: 20px;
+  height: 172px;
 }
 
 nav .mobile-menu .nav-pages {
@@ -176,7 +207,8 @@ nav .nav-search input::placeholder {
   color: hsl(216, 12%, 65%);
 }
 
-nav .nav-search button {
+nav .nav-search button,
+nav .nav-search-select button {
   position: absolute;
   top: 50%;
   right: 15px;
@@ -191,7 +223,8 @@ nav .nav-search button {
   outline: 0;
 }
 
-nav .nav-search svg > * {
+nav .nav-search svg > *,
+nav .nav-search-select svg > * {
   color: hsl(216, 12%, 84%);
 }
 

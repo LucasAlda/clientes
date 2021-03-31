@@ -1,8 +1,10 @@
 import React from "react";
 import { FiCopy } from "react-icons/fi";
+import { useToasts } from "react-toast-notifications";
 import Button from "./Button";
 
 const Copy = ({ reference, style, actions = false }) => {
+  const { addToast } = useToasts();
   const handleClick = () => {
     if (!reference?.current) return;
     if (actions) {
@@ -27,6 +29,7 @@ const Copy = ({ reference, style, actions = false }) => {
       document.execCommand("copy");
       window.getSelection().removeRange(selection);
     }
+    addToast("Tabla copiada!", { appearance: "success" });
   };
 
   return (

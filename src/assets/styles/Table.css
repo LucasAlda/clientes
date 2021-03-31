@@ -235,11 +235,13 @@ tr.separator td span.neg {
 }
 
 table.position td,
-table.caucionable td {
+table.caucionable td,
+table.corriente td {
   padding: 1px 10px;
   font-size: 13px;
 }
 
+table.corriente tr.separator.sub-separator td,
 table.caucionable tr.separator.sub-separator td {
   background-color: hsl(220, 15%, 90%);
   border-color: hsl(220, 15%, 90%);
@@ -281,6 +283,50 @@ table.caucionable tr.separator td:nth-of-type(3) {
 }
 table.caucionable tr.separator td:nth-of-type(4) {
   width: 35%;
+}
+
+table.corriente tr td:first-of-type,
+table.corriente tr th:nth-of-type(1) {
+  width: 15%;
+}
+table.corriente tr td:nth-of-type(2),
+table.corriente tr th:nth-of-type(2) {
+  width: 25%;
+}
+table.corriente tr td:nth-of-type(3),
+table.corriente tr th:nth-of-type(3) {
+  width: 15%;
+}
+table.corriente tr td:nth-of-type(4),
+table.corriente tr th:nth-of-type(4) {
+  width: 10%;
+}
+table.corriente tr td:nth-of-type(5),
+table.corriente tr th:nth-of-type(5) {
+  width: 15%;
+}
+table.corriente tr td:nth-of-type(6),
+table.corriente tr th:nth-of-type(6) {
+  width: 20%;
+}
+
+table.corriente tr.separator td:first-of-type {
+  width: 15%;
+}
+table.corriente tr.separator td:nth-of-type(2) {
+  width: 25%;
+}
+table.corriente tr.separator td:nth-of-type(3) {
+  width: 15%;
+}
+table.corriente tr.separator td:nth-of-type(4) {
+  width: 10%;
+}
+table.corriente tr.separator td:nth-of-type(4) {
+  width: 15%;
+}
+table.corriente tr.separator td:nth-of-type(4) {
+  width: 20%;
 }
 
 @media (max-width: 1400px) {
