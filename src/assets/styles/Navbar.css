@@ -20,6 +20,7 @@ nav {
   border-radius: 6px;
   outline: 0;
   box-shadow: none !important;
+  padding-right: 40px;
 }
 
 .nav-search-select > div > div:first-of-type > div:first-of-type > div {

@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiSearch, FiBell, FiMenu } from "react-icons/fi";
 import { withRouter } from "react-router";
 import Select from "react-select";
-import { AutoSuggest } from "react-autosuggestions";
 import "../assets/styles/Navbar.css";
 import authFetch from "../helpers/authFetch";
 
 const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }) => {
   const [open, setOpen] = useState(false);
   const [comitente, setComitente] = useState("");
-  const [especie, setEspecie] = useState("");
   const [especies, setEspecies] = useState([]);
   const section = location.pathname.split("/")[1] || "principal";
 
@@ -17,7 +15,7 @@ const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }
     authFetch("/search/especies").then((data) => {
       setEspecies(data);
     });
-  });
+  }, []);
 
   const onSubmitComitente = (e) => {
     e.preventDefault();
@@ -25,11 +23,6 @@ const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }
     setSearch((prev) => ({ ...prev, enter: true, text: comitente }));
     setOpen(false);
     if (section !== "principal") history.push({ pathname: "/" });
-  };
-
-  const onSubmitEspecie = (e) => {
-    e.preventDefault();
-    setModalEspecies({ show: true, action: "SHOW", data: { especie } });
   };
 
   const searchComitente = (
@@ -54,6 +47,14 @@ const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }
   const searchEspecie = (
     <div className="nav-search-select">
       <Select
+        onMenuClose={() =>
+          document
+            .querySelectorAll(
+              '.nav-search-select > div > div:first-of-type > div:first-of-type > div[class*="singleValue"]'
+            )
+            .forEach((a) => (a.innerHTML = '<span style="color: hsl(216, 12%, 65%)">Buscar Especie</span>'))
+        }
+        placeholder="Buscar Especie"
         onChange={(e) => e && setModalEspecies({ show: true, data: { especie: e.value } })}
         options={especies.map((a) => ({ label: a.value, value: a.value }))}
       />

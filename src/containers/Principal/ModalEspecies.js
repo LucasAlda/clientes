@@ -9,6 +9,7 @@ const ModalEspecies = ({ modal, setModal }) => {
 
   useEffect(() => {
     if (modal.show) {
+      setData([]);
       authFetch("/search/especies", {
         method: "POST",
         body: {
@@ -16,8 +17,7 @@ const ModalEspecies = ({ modal, setModal }) => {
         },
       }).then((data) => setData(data));
     }
-    setData([]);
-  }, [modal.data.especie, modal.show]);
+  }, [modal.data.especie]);
 
   return (
     <Modal title={`Posiciones en ${modal.data.especie}`} show={modal.show} setModal={setModal} size="lg" disabled>
