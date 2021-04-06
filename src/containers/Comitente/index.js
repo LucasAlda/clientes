@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
-import { FiMail, FiPhone, FiRefreshCcw } from "react-icons/fi";
+import { FiCalendar, FiMail, FiPhone, FiRefreshCcw } from "react-icons/fi";
 import Info from "./Info";
 import Card from "../../components/Card";
 import Tabs from "../../components/Tabs";
@@ -20,8 +20,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Corriente from "./Corriente";
 
-const DateComponent = ({ value, onClick, posicion = {} }) => (
-  <span onClick={onClick}>{posicion.fecha ? new Date(posicion.fecha).formatFull() : "-"}</span>
+const DateComponent = ({ value, onClick, fechaFormatted }) => (
+  <span onClick={onClick} style={{ display: "flex", alignItems: "flex-start" }}>
+    <FiCalendar style={{ marginRight: 5, marginTop: 2 }} />
+    {fechaFormatted ? fechaFormatted : "-"}
+  </span>
 );
 
 const Comitente = ({ history, match, location, search, user }) => {
@@ -32,6 +35,11 @@ const Comitente = ({ history, match, location, search, user }) => {
   const [comitente, setComitente] = useState({});
   const [year, setYear] = useState("2021");
   const [posicion, setPosicion] = useState({ fecha: new Date(), loading: true, data: [] });
+  const [{ corriente, corrienteLoading, corrienteDesde }, setCorriente] = useState({
+    corrienteLoading: true,
+    corriente: [],
+    corrienteDesde: new Date(),
+  });
 
   useEffect(() => {
     authFetch(`/comitente/${comitenteId}`)
@@ -44,6 +52,47 @@ const Comitente = ({ history, match, location, search, user }) => {
     })
       .then((data) => setPosicion(data))
       .catch((err) => addToast("Error cargando posición!", { appearance: "error" }));
+    const today = new Date();
+    let nextMonth;
+    if (today.getMonth() === 11)
+      nextMonth = new Date(today.getFullYear() + 1, 1, today.getDate() > 28 ? 28 : today.getDate());
+    else nextMonth = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate() > 28 ? 28 : today.getDate());
+
+    authFetch(`/comitente/corriente/`, {
+      method: "POST",
+      body: {
+        comitenteId,
+        desde: corrienteDesde.toOldString(),
+        hasta: nextMonth.toOldString(),
+      },
+    })
+      .then((data) => {
+        const corrienteGrouped = [];
+        data.forEach((row) => {
+          if (!row.esDisponible || row.esSaldo) return;
+          const findIndex = corrienteGrouped.findIndex(
+            (a) =>
+              a.fechaLiquidacion === row.fechaLiquidacion &&
+              a.instrumento === row.instrumento &&
+              a.detalle === row.detalle
+          );
+          if (findIndex < 0 || row.tipoItem === "Monedas") {
+            corrienteGrouped.push(row);
+          } else {
+            console.log(
+              corrienteGrouped[findIndex].cantidadVN,
+              row.cantidadVN,
+              corrienteGrouped[findIndex].cantidadVN + row.cantidadVN
+            );
+            corrienteGrouped[findIndex].cantidadVN += row.cantidadVN;
+          }
+        });
+        setCorriente({ loading: false, corriente: corrienteGrouped, corrienteDesde });
+      })
+      .catch((err) => {
+        addToast("Error cargando Cta Corriente!", { appearance: "error" });
+        console.log(err);
+      });
     //eslint-disable-next-line
   }, [comitenteId]);
 
@@ -126,15 +175,22 @@ const Comitente = ({ history, match, location, search, user }) => {
                     })
                     .catch((err) => addToast("Error cargando posición!", { appearance: "error" }));
                 }}
-                customInput={<DateComponent posicion={posicion} />}
+                customInput={<DateComponent fechaFormatted={new Date(posicion.fecha).formatFull()} />}
               />
               <Button
-                style={{ marginLeft: 5 }}
+                style={{ marginLeft: 5, height: 35, display: "flex", alignItems: "center", justifyContent: "center" }}
                 color="transparent"
                 onClick={() =>
                   authFetch(`/comitente/posicion/${comitenteId}`, {
                     method: "POST",
-                    body: { fecha: new Date(posicion.fecha).toOldString() },
+                    body: {
+                      fecha:
+                        new Date(posicion.fecha).getDate() === new Date().getDate() &&
+                        new Date(posicion.fecha).getMonth() === new Date().getMonth() &&
+                        new Date(posicion.fecha).getFullYear() === new Date().getFullYear()
+                          ? new Date().toOldString()
+                          : new Date(posicion.fecha).toOldString(),
+                    },
                   })
                     .then((data) => {
                       setPosicion(data);
@@ -145,6 +201,62 @@ const Comitente = ({ history, match, location, search, user }) => {
               >
                 <FiRefreshCcw style={{ strokeWidth: 3 }} />
               </Button>
+            </span>
+          )}
+          {activeTab === "corriente" && (
+            <span
+              className="corriente-datepicker"
+              style={{ fontSize: 13, display: "flex", alignItems: "center", marginRight: 15 }}
+            >
+              <DatePicker
+                selected={new Date(corrienteDesde)}
+                onChange={(date) => {
+                  const today = new Date();
+                  let nextMonth;
+                  if (today.getMonth() === 11)
+                    nextMonth = new Date(today.getFullYear() + 1, 1, today.getDate() > 28 ? 28 : today.getDate());
+                  else
+                    nextMonth = new Date(
+                      today.getFullYear(),
+                      today.getMonth() + 2,
+                      today.getDate() > 28 ? 28 : today.getDate()
+                    );
+                  authFetch(`/comitente/corriente/`, {
+                    method: "POST",
+                    body: {
+                      comitenteId,
+                      desde: date.toOldString(),
+                      hasta: nextMonth.toOldString(),
+                    },
+                  })
+                    .then((data) => {
+                      const corrienteGrouped = [];
+                      data.forEach((row) => {
+                        if (!row.esDisponible || row.esSaldo) return;
+                        const findIndex = corrienteGrouped.findIndex(
+                          (a) =>
+                            a.fechaLiquidacion === row.fechaLiquidacion &&
+                            a.instrumento === row.instrumento &&
+                            a.detalle === row.detalle
+                        );
+                        if (findIndex < 0 || row.tipoItem === "Monedas") {
+                          corrienteGrouped.push(row);
+                        } else {
+                          console.log(
+                            corrienteGrouped[findIndex].cantidadVN,
+                            row.cantidadVN,
+                            corrienteGrouped[findIndex].cantidadVN + row.cantidadVN
+                          );
+                          corrienteGrouped[findIndex].cantidadVN += row.cantidadVN;
+                        }
+                      });
+                      setCorriente({ loading: false, corriente: corrienteGrouped, corrienteDesde });
+                      addToast("Corriente actualizada!", { appearance: "success" });
+                    })
+                    .catch((err) => addToast("Error cargando corriente!", { appearance: "error" }));
+                }}
+                customInput={<DateComponent fechaFormatted={new Date(corrienteDesde).format("/")} />}
+              />
             </span>
           )}
           {"transferencias|recibos-comprobantes".includes(activeTab) && (
@@ -205,7 +317,15 @@ const Comitente = ({ history, match, location, search, user }) => {
           <Route
             exact
             path={`${match.path}/corriente`}
-            render={(props) => <Corriente comitenteId={comitenteId} {...props} />}
+            render={(props) => (
+              <Corriente
+                comitenteId={comitenteId}
+                {...props}
+                corriente={corriente}
+                loading={corrienteLoading}
+                corrienteDesde={corrienteDesde}
+              />
+            )}
           />
           <Route
             exact

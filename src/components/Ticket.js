@@ -47,9 +47,9 @@ const Ticket = ({ history, ticket, users = [], user }) => {
         <h5>
           <span>Creado el</span> {creac.format()}
         </h5>
-        <h5>
+        {/* <h5>
           <span>Por</span> {USUARIO_ORIGEN}
-        </h5>
+        </h5> */}
       </div>
     </li>
   );

@@ -52,6 +52,10 @@ body {
   transform: translateX(-40px);
 }
 
+.corriente-datepicker .react-datepicker-popper > div {
+  transform: translateX(-140px);
+}
+
 @media (min-width: 1200px) {
   .container {
     padding: 0 40px 40px 40px;

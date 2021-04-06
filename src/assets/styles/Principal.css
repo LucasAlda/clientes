@@ -38,7 +38,7 @@
 }
 
 .bottom-section > div {
-  max-height: calc((100vh - 240px) / 2 + 30px);
+  max-height: calc((100vh - 240px) / 2 + 55px);
 }
 
 @media (min-width: 1200px) {
@@ -49,6 +49,6 @@
   }
 
   .bottom-section > div {
-    height: calc((100vh - 240px) / 2 + 30px);
+    height: calc((100vh - 240px) / 2 + 55px);
   }
 }

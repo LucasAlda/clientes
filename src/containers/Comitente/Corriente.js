@@ -3,32 +3,7 @@ import Card from "../../components/Card";
 import { Table } from "../../components/Table";
 import authFetch from "../../helpers/authFetch";
 
-const Corriente = ({ match, comitenteId, year }) => {
-  const [{ loading, corriente }, setCorriente] = useState({ loading: true, corriente: [] });
-
-  useEffect(() => {
-    const today = new Date();
-    let nextMonth;
-    if (today.getMonth() === 11)
-      nextMonth = new Date(today.getFullYear() + 1, 1, today.getDate() > 28 ? 28 : today.getDate());
-    else nextMonth = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate() > 28 ? 28 : today.getDate());
-
-    console.log(nextMonth);
-
-    authFetch(`/comitente/corriente/`, {
-      method: "POST",
-      body: {
-        comitenteId,
-        desde: new Date().toOldString(),
-        hasta: nextMonth.toOldString(),
-      },
-    })
-      .then((data) => setCorriente({ loading: false, corriente: data }))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [comitenteId]);
-
+const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
   const dataTable = [];
 
   corriente.forEach((row, i) => {
@@ -38,6 +13,8 @@ const Corriente = ({ match, comitenteId, year }) => {
       dataTable.push({
         lastFecha: "",
         saldoAnt: true,
+        saldo: 0,
+        tipoItem: row.tipoItem,
         instrumento: row.instrumento,
         codigoEspecie: row.codigoEspecie,
         table: [],
@@ -63,7 +40,7 @@ const Corriente = ({ match, comitenteId, year }) => {
           ...(row.tipoItem === "Monedas" ? [{ content: "" }] : []),
           {
             className: "text-right",
-            content: (dataTable[especieIndex].table[dataTable[especieIndex].table.length - 1].row.saldo || 0).format(),
+            content: dataTable[especieIndex].saldo.format(),
           },
           ...(row.tipoItem !== "Monedas" ? [{ content: "" }] : []),
           { content: "" },
@@ -73,6 +50,7 @@ const Corriente = ({ match, comitenteId, year }) => {
     }
 
     if (row.esSaldoAnterior) {
+      dataTable[especieIndex].saldo += row.saldo;
       dataTable[especieIndex].table.push({
         row,
         className: "separator ",
@@ -90,6 +68,7 @@ const Corriente = ({ match, comitenteId, year }) => {
         ],
       });
     } else {
+      dataTable[especieIndex].saldo += row.tipoItem === "Instrumentos" ? row.cantidadVN : row.importeNeto;
       dataTable[especieIndex].saldoAnt = false;
       dataTable[especieIndex].lastFecha = row.fechaLiquidacion;
       dataTable[especieIndex].table.push({
@@ -102,7 +81,11 @@ const Corriente = ({ match, comitenteId, year }) => {
           { content: row.detalle },
           { className: "text-right", content: (row.cantidadVN || 0).format(), order: row.cantidadVN },
           { className: "text-right", content: (row.importeNeto || 0).format(), order: row.importeNeto || 0 },
-          { className: "text-right", content: (row.saldo || 0).format(), order: row.saldo },
+          {
+            className: "text-right",
+            content: (dataTable[especieIndex].saldo || 0).format(),
+            order: dataTable[especieIndex].saldo,
+          },
           { className: "text-right", content: (row.porcArancel || 0).format(), order: row.porcArancel },
         ],
       });
@@ -123,7 +106,7 @@ const Corriente = ({ match, comitenteId, year }) => {
         ...(lastRow.tipoItem === "Monedas" ? [{ content: "" }] : []),
         {
           className: "text-right",
-          content: (especie.table[especie.table.length - 1].row.saldo || 0).format(),
+          content: (especie.saldo || 0).format(),
         },
         ...(lastRow.tipoItem !== "Monedas" ? [{ content: "" }] : []),
         { content: "" },
@@ -132,34 +115,42 @@ const Corriente = ({ match, comitenteId, year }) => {
     });
   });
 
+  const orderItem = { Instrumentos: 0, Monedas: 1 };
+
   return (
     <>
       {corriente.length > 0 ? (
-        dataTable.map((b, j) => {
-          return (
-            <React.Fragment key={j}>
-              <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>{b.instrumento}</h4>
-              <Card>
-                <Table
-                  className="corriente"
-                  columns={
-                    j === 0
-                      ? [
-                          { className: "text-center", content: "Fecha" },
-                          { className: "text-left", content: "Descripción" },
-                          { className: "text-right", content: "Cantidad VN" },
-                          { className: "text-right", content: "Neto" },
-                          { className: "text-right", content: "Saldo" },
-                          { className: "text-right", content: "Arancel (%)" },
-                        ]
-                      : []
-                  }
-                  data={b.table}
-                />
-              </Card>
-            </React.Fragment>
-          );
-        })
+        dataTable
+          .sort((a, b) =>
+            orderItem[a.tipoItem] - orderItem[b.tipoItem] !== 0
+              ? orderItem[a.tipoItem] - orderItem[b.tipoItem]
+              : a.codigoEspecie - b.codigoEspecie
+          )
+          .map((b, j) => {
+            return (
+              <React.Fragment key={j}>
+                <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>{b.instrumento}</h4>
+                <Card>
+                  <Table
+                    className="corriente"
+                    columns={
+                      j === 0
+                        ? [
+                            { className: "text-center", content: "Fecha" },
+                            { className: "text-left", content: "Descripción" },
+                            { className: "text-right", content: "Cantidad VN" },
+                            { className: "text-right", content: "Neto" },
+                            { className: "text-right", content: "Saldo" },
+                            { className: "text-right", content: "Arancel (%)" },
+                          ]
+                        : []
+                    }
+                    data={b.table}
+                  />
+                </Card>
+              </React.Fragment>
+            );
+          })
       ) : (
         <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>
           {loading ? "Cargando Cuenta Corriente" : "No hay Cuenta Corriente"}
