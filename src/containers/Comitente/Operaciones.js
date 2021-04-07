@@ -29,8 +29,8 @@ const Operaciones = ({ match, comitenteId }) => {
         { className: "text-right", content: (row.CANT || 0).format() },
         { className: "text-right", content: (row.PPP || 0).format() },
         { className: "text-right", content: row.MonedaSimbolo + " " + (row.BRUTO || 0).format() },
-        { className: "text-center", content: (row.ARANCEL || 0).format() },
-        { className: "text-right", content: (row.ArancelPesos || 0).format() },
+        { className: "text-center remove-copy", content: (row.ARANCEL || 0).format() },
+        { className: "text-right remove-copy", content: (row.ArancelPesos || 0).format() },
         {
           className: "text-right",
           content: (
@@ -47,7 +47,9 @@ const Operaciones = ({ match, comitenteId }) => {
   dataTableOp.push({
     className: "header",
     cells: [
-      { content: "Total Neto", colspan: 9 },
+      { content: "Total Neto", colspan: 7 },
+      { content: "", className: "remove-copy" },
+      { content: "", className: "remove-copy" },
       { className: "text-right", content: totalOp.format() },
     ],
   });
@@ -94,8 +96,8 @@ const Operaciones = ({ match, comitenteId }) => {
                   { className: "text-right", content: "Cantidad" },
                   { className: "text-right", content: "PPP" },
                   { className: "text-right", content: "Bruto" },
-                  { className: "text-center", content: "Arancel" },
-                  { className: "text-right", content: "Arancel Pesos" },
+                  { className: "text-center remove-copy", content: "Arancel" },
+                  { className: "text-right remove-copy", content: "Arancel Pesos" },
                   { className: "text-right", content: "Neto Pesos" },
                 ]}
                 data={[...dataTableOp, { cells: [] }]}

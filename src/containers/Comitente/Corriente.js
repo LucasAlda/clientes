@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Card from "../../components/Card";
 import Copy from "../../components/Copy";
 import { Table } from "../../components/Table";
-import authFetch from "../../helpers/authFetch";
 
 const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
   const dataTable = [];

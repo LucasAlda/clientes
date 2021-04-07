@@ -10,7 +10,6 @@ const Ticket = ({ history, ticket, users = [], user }) => {
     USUARIO_DESTINO = "",
     DESTINO_ARRAY = "[]",
     FECHA_ORIGEN = new Date(),
-    USUARIO_ORIGEN = "",
   } = ticket;
 
   const venc = new Date(VENCIMIENTO);

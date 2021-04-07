@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 import "../assets/styles/Card.css";
 
 const Card = ({ reference, children, className, style }) => {
@@ -9,4 +9,5 @@ const Card = ({ reference, children, className, style }) => {
   );
 };
 
-export default Card;
+const MemoizedCard = React.memo(Card);
+export default MemoizedCard;

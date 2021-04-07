@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiSearch, FiBell, FiMenu } from "react-icons/fi";
 import { withRouter } from "react-router";
 import Select from "react-select";

@@ -17,7 +17,7 @@ const ModalEspecies = ({ modal, setModal }) => {
         },
       }).then((data) => setData(data));
     }
-  }, [modal.data.especie]);
+  }, [modal.data.especie, modal.show]);
 
   return (
     <Modal title={`Posiciones en ${modal.data.especie}`} show={modal.show} setModal={setModal} size="lg" disabled>

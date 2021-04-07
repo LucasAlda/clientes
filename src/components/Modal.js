@@ -77,4 +77,5 @@ const Modal = ({ show, title, handleSubmit, setModal, disabled, children, size =
     : null;
 };
 
-export default Modal;
+const MemoizedModal = React.memo(Modal);
+export default MemoizedModal;
