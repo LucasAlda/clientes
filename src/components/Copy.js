@@ -2,34 +2,32 @@ import React from "react";
 import { FiCopy, FiImage } from "react-icons/fi";
 import { useToasts } from "react-toast-notifications";
 import Button from "./Button";
-import Modal from "./Modal";
 
 const Copy = ({ reference, style, actions = false, backgroundColor }) => {
   const { addToast } = useToasts();
   const handleClick = () => {
     if (!reference?.current) return;
-    if (actions) {
-      const selection = document.createRange();
-      const clone = reference.current.cloneNode(true);
-      Array.from(clone.querySelectorAll("tr")).forEach((row) => {
-        const cells = Array.from(row.querySelectorAll("th, td"));
-        if (cells[cells.length - 1]) row.removeChild(cells[cells.length - 1]);
-      });
-      document.body.appendChild(clone);
-      selection.selectNodeContents(clone);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(selection);
-      document.execCommand("copy");
-      document.body.removeChild(clone);
-      window.getSelection().removeRange(selection);
-    } else {
-      const selection = document.createRange();
-      selection.selectNodeContents(reference.current);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(selection);
-      document.execCommand("copy");
-      window.getSelection().removeRange(selection);
-    }
+    const selection = document.createRange();
+    const clone = reference.current.cloneNode(true);
+    clone.style.width = "1350px";
+    clone.style.marginTop = "1000px";
+    clone.style.padding = "0.1px 10px 20px 10px";
+    clone.style.left = "15px";
+    if (backgroundColor) clone.style.backgroundColor = backgroundColor;
+
+    Array.from(clone.querySelectorAll("tr")).forEach((row) => {
+      const cells = Array.from(row.querySelectorAll("th, td"));
+      if (actions) row.removeChild(cells[cells.length - 1]);
+      cells.filter((a) => a.className.includes("remove-copy")).forEach((cell) => row.removeChild(cell));
+    });
+
+    document.body.appendChild(clone);
+    selection.selectNodeContents(clone);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(selection);
+    document.execCommand("copy");
+    document.body.removeChild(clone);
+    window.getSelection().removeRange(selection);
     addToast("Tabla copiada!", { appearance: "success" });
   };
 

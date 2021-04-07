@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import Principal from "../containers/Principal";
 import Comitente from "../containers/Comitente";
+import Extras from "../containers/Extras";
 import Proveedor from "../containers/Proveedor";
 import Login from "../containers/Login";
 import Navbar from "../components/Navbar";
@@ -46,6 +47,11 @@ const App = () => {
         {!auth && <Redirect to="/login" />}
         <Route path="/comitente/:comitente" render={(props) => <Comitente user={user} {...props} />} />
         <Route path="/proveedor/:comitente" render={(props) => <Proveedor user={user} {...props} />} />
+        <Route
+          path="/extras"
+          render={(props) => <Extras {...props} user={user} search={search} setSearch={setSearch} />}
+        />
+        <Route path="/agenda" render={(props) => <div>Agenda</div>} />
         <Route
           path="/"
           render={(props) => <Principal {...props} user={user} search={search} setSearch={setSearch} />}

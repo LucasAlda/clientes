@@ -72,10 +72,20 @@ const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }
             <div className="nav-left">
               <h1 onClick={() => history.push({ pathname: "/" })}>Clientes</h1>
               <div className="nav-pages">
-                <button href="" className="active">
+                <button
+                  href=""
+                  className={section === "extras" ? "active" : ""}
+                  onClick={() => history.push({ pathname: "/extras" })}
+                >
                   Extras
                 </button>
-                <button href="">Agenda</button>
+                <button
+                  href=""
+                  className={section === "agenda" ? "active" : ""}
+                  onClick={() => history.push({ pathname: "/agenda" })}
+                >
+                  Agenda
+                </button>
               </div>
               {searchComitente}
             </div>
