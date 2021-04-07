@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Card from "../../components/Card";
+import Copy from "../../components/Copy";
 import { Table } from "../../components/Table";
 import authFetch from "../../helpers/authFetch";
 
 const Operaciones = ({ match, comitenteId }) => {
   const [data, setData] = useState([]);
+  const operacionesRef = useRef();
 
   useEffect(() => {
     authFetch(`/comitente/operaciones/${comitenteId}`)
@@ -77,52 +79,55 @@ const Operaciones = ({ match, comitenteId }) => {
 
   return (
     <>
-      {data.operaciones?.length > 0 && (
-        <>
-          <h4 style={{ marginTop: 15, marginBottom: 0 }}>Operaciones</h4>
-          <Card style={{ marginTop: 10 }}>
-            <Table
-              className="position"
-              columns={[
-                { className: "text-center", content: "Fecha" },
-                { className: "text-center", content: "Especie" },
-                { className: "text-center", content: "Operación" },
-                { className: "text-center", content: "Plazo" },
-                { className: "text-right", content: "Cantidad" },
-                { className: "text-right", content: "PPP" },
-                { className: "text-right", content: "Bruto" },
-                { className: "text-center", content: "Arancel" },
-                { className: "text-right", content: "Arancel Pesos" },
-                { className: "text-right", content: "Neto Pesos" },
-              ]}
-              data={dataTableOp}
-            />
-          </Card>
-        </>
-      )}
-      {data.cauciones?.length > 0 && (
-        <>
-          <h4 style={{ marginTop: 15, marginBottom: 0 }}>Cauciones</h4>
-          <Card style={{ marginTop: 10 }}>
-            <Table
-              className="position"
-              columns={[
-                { className: "text-center", content: "Fecha" },
-                { className: "text-center", content: "Operación" },
-                { className: "text-right", content: "Cantidad" },
-                { className: "text-center", content: "Plazo" },
-                { className: "text-center", content: "Tasa" },
-                { className: "text-right", content: "Monto Contado" },
-                { className: "text-right", content: "Monto Futuro" },
-              ]}
-              data={dataTableCau}
-            />
-          </Card>
-        </>
-      )}
-      {data.cauciones?.length === 0 && data.operaciones?.length === 0 && (
-        <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>No hubo Movimientos Hoy</h4>
-      )}
+      <div ref={operacionesRef}>
+        {data.operaciones?.length > 0 && (
+          <>
+            <h4 style={{ marginTop: 15, marginBottom: 0 }}>Operaciones</h4>
+            <Card style={{ marginTop: 10 }}>
+              <Table
+                className="position"
+                columns={[
+                  { className: "text-center", content: "Fecha" },
+                  { className: "text-center", content: "Especie" },
+                  { className: "text-center", content: "Operación" },
+                  { className: "text-center", content: "Plazo" },
+                  { className: "text-right", content: "Cantidad" },
+                  { className: "text-right", content: "PPP" },
+                  { className: "text-right", content: "Bruto" },
+                  { className: "text-center", content: "Arancel" },
+                  { className: "text-right", content: "Arancel Pesos" },
+                  { className: "text-right", content: "Neto Pesos" },
+                ]}
+                data={[...dataTableOp, { cells: [] }]}
+              />
+            </Card>
+          </>
+        )}
+        {data.cauciones?.length > 0 && (
+          <>
+            <h4 style={{ marginTop: 15, marginBottom: 0 }}>Cauciones</h4>
+            <Card style={{ marginTop: 10 }}>
+              <Table
+                className="position"
+                columns={[
+                  { className: "text-center", content: "Fecha" },
+                  { className: "text-center", content: "Operación" },
+                  { className: "text-right", content: "Cantidad" },
+                  { className: "text-center", content: "Plazo" },
+                  { className: "text-center", content: "Tasa" },
+                  { className: "text-right", content: "Monto Contado" },
+                  { className: "text-right", content: "Monto Futuro" },
+                ]}
+                data={dataTableCau}
+              />
+            </Card>
+          </>
+        )}
+        {data.cauciones?.length === 0 && data.operaciones?.length === 0 && (
+          <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>No hubo Movimientos Hoy</h4>
+        )}
+      </div>
+      <Copy style={{ marginTop: 15 }} reference={operacionesRef} />
     </>
   );
 };

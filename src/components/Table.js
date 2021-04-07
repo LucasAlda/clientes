@@ -148,32 +148,35 @@ export const Table = React.memo(
     return (
       <table ref={reference} className={`table${className ? ` ${className}` : ""}`} style={style}>
         <thead>
-          <tr>
-            {columns.map((col, i) => (
-              <th
-                className={`table-th${col.className ? " " + col.className : ""}`}
-                style={col.style || {}}
-                key={i}
-                onClick={(e) => handleSort(e, i, this)}
-              >
-                {col.content}
-                {col.sortable && sort.colIndex !== i && (
-                  <span className="sort-icon">
-                    <FiCode style={{ transform: "rotate(90deg)" }} />
-                  </span>
-                )}
-                {col.sortable && sort.colIndex === i && (
-                  <span className="sort-icon">
-                    {sort.dir === 1 && <FiChevronDown />}
-                    {sort.dir === -1 && <FiChevronUp />}
-                  </span>
-                )}
-              </th>
-            ))}
-          </tr>
-          <tr>
-            {filterStatus &&
-              columns.map((col, i) =>
+          {columns.length > 0 && (
+            <tr>
+              {columns.map((col, i) => (
+                <th
+                  className={`table-th${col.className ? " " + col.className : ""}`}
+                  style={col.style || {}}
+                  key={i}
+                  onClick={(e) => handleSort(e, i, this)}
+                >
+                  {col.content}
+                  {col.sortable && sort.colIndex !== i && (
+                    <span className="sort-icon">
+                      <FiCode style={{ transform: "rotate(90deg)" }} />
+                    </span>
+                  )}
+                  {col.sortable && sort.colIndex === i && (
+                    <span className="sort-icon">
+                      {sort.dir === 1 && <FiChevronDown />}
+                      {sort.dir === -1 && <FiChevronUp />}
+                    </span>
+                  )}
+                </th>
+              ))}
+            </tr>
+          )}
+
+          {filterStatus && (
+            <tr>
+              {columns.map((col, i) =>
                 col.filterable ? (
                   <th key={i} className="th-filter">
                     <div>
@@ -191,7 +194,8 @@ export const Table = React.memo(
                   </th>
                 )
               )}
-          </tr>
+            </tr>
+          )}
         </thead>
         <tbody>
           {renderData.map((tr, i) => (

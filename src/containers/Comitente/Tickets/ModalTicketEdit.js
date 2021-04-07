@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import UserSelect from "../../../components/UserSelect";
 
 const ModalTicket = ({ modal, setModal, users: usersArray, handleSubmit: handleSubmitModal }) => {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, getValues, setValue } = useForm();
   const onSubmit = handleSubmit((data) => handleSubmitModal({ ...data, users }));
   const [users, setUsers] = useState([]);
 
@@ -47,6 +47,7 @@ const ModalTicket = ({ modal, setModal, users: usersArray, handleSubmit: handleS
           errMsg="Estado Requerido"
           label="Estado"
           name="ESTADO"
+          onChange={(e) => e.target.value === "0" && getValues().COMENTARIO === "" && setValue("COMENTARIO", "Hecho")}
           data={[
             { label: "Activo", value: 1 },
             { label: "Hecho", value: 0 },

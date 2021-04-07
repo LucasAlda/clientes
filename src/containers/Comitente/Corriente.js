@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Card from "../../components/Card";
+import Copy from "../../components/Copy";
 import { Table } from "../../components/Table";
 import authFetch from "../../helpers/authFetch";
 
 const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
   const dataTable = [];
+  const corrienteRef = useRef();
 
   corriente.forEach((row, i) => {
     if (!row.esDisponible || row.esSaldo) return;
@@ -119,43 +121,46 @@ const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
 
   return (
     <>
-      {corriente.length > 0 ? (
-        dataTable
-          .sort((a, b) =>
-            orderItem[a.tipoItem] - orderItem[b.tipoItem] !== 0
-              ? orderItem[a.tipoItem] - orderItem[b.tipoItem]
-              : a.codigoEspecie - b.codigoEspecie
-          )
-          .map((b, j) => {
-            return (
-              <React.Fragment key={j}>
-                <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>{b.instrumento}</h4>
-                <Card>
-                  <Table
-                    className="corriente"
-                    columns={
-                      j === 0
-                        ? [
-                            { className: "text-center", content: "Fecha" },
-                            { className: "text-left", content: "Descripción" },
-                            { className: "text-right", content: "Cantidad VN" },
-                            { className: "text-right", content: "Neto" },
-                            { className: "text-right", content: "Saldo" },
-                            { className: "text-right", content: "Arancel (%)" },
-                          ]
-                        : []
-                    }
-                    data={b.table}
-                  />
-                </Card>
-              </React.Fragment>
-            );
-          })
-      ) : (
-        <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>
-          {loading ? "Cargando Cuenta Corriente" : "No hay Cuenta Corriente"}
-        </h4>
-      )}
+      <div ref={corrienteRef}>
+        {corriente.length > 0 ? (
+          dataTable
+            .sort((a, b) =>
+              orderItem[a.tipoItem] - orderItem[b.tipoItem] !== 0
+                ? orderItem[a.tipoItem] - orderItem[b.tipoItem]
+                : a.codigoEspecie - b.codigoEspecie
+            )
+            .map((b, j) => {
+              return (
+                <React.Fragment key={j}>
+                  <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>{b.instrumento}</h4>
+                  <Card>
+                    <Table
+                      className="corriente"
+                      columns={
+                        j === 0
+                          ? [
+                              { className: "text-center", content: "Fecha" },
+                              { className: "text-left", content: "Descripción" },
+                              { className: "text-right", content: "Cantidad VN" },
+                              { className: "text-right", content: "Neto" },
+                              { className: "text-right", content: "Saldo" },
+                              { className: "text-right", content: "Arancel (%)" },
+                            ]
+                          : []
+                      }
+                      data={[...b.table, { cells: [] }]}
+                    />
+                  </Card>
+                </React.Fragment>
+              );
+            })
+        ) : (
+          <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>
+            {loading ? "Cargando Cuenta Corriente" : "No hay Cuenta Corriente"}
+          </h4>
+        )}
+      </div>
+      <Copy reference={corrienteRef} style={{ marginTop: 15 }} />
     </>
   );
 };

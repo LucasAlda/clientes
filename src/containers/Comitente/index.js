@@ -250,7 +250,7 @@ const Comitente = ({ history, match, location, search, user }) => {
                           corrienteGrouped[findIndex].cantidadVN += row.cantidadVN;
                         }
                       });
-                      setCorriente({ loading: false, corriente: corrienteGrouped, corrienteDesde });
+                      setCorriente({ loading: false, corriente: corrienteGrouped, corrienteDesde: date });
                       addToast("Corriente actualizada!", { appearance: "success" });
                     })
                     .catch((err) => addToast("Error cargando corriente!", { appearance: "error" }));
