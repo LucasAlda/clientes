@@ -31,10 +31,9 @@ const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
             content:
               "Saldo al " +
               new Date(
-                dataTable[especieIndex].table[dataTable[especieIndex].table.length - 1].row.fechaLiquidacion.replace(
-                  " ",
-                  "T"
-                )
+                dataTable[especieIndex].table[
+                  dataTable[especieIndex].table.length - 1
+                ].row.fechaLiquidacion.replace(" ", "T")
               ).format(),
           },
           { content: "" },
@@ -54,7 +53,7 @@ const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
       dataTable[especieIndex].saldo += row.saldo;
       dataTable[especieIndex].table.push({
         row,
-        className: "separator ",
+        className: `separator${row.tipoItem === "Monedas" ? " separator-moneda" : ""}`,
         cells: [
           { content: row.detalle },
           { content: "" },
@@ -101,7 +100,9 @@ const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
         {
           content:
             "Saldo al " +
-            new Date(lastRow?.fechaLiquidacion ? lastRow.fechaLiquidacion.replace(" ", "T") : new Date()).format(),
+            new Date(
+              lastRow?.fechaLiquidacion ? lastRow.fechaLiquidacion.replace(" ", "T") : new Date()
+            ).format(),
         },
         { content: "" },
         ...(lastRow.tipoItem === "Monedas" ? [{ content: "" }] : []),
@@ -131,7 +132,9 @@ const Corriente = ({ match, comitenteId, year, loading, corriente }) => {
             .map((b, j) => {
               return (
                 <React.Fragment key={j}>
-                  <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>{b.instrumento}</h4>
+                  <h4 style={{ marginTop: 15, marginBottom: 5, color: "rgba(87 87 87 / 80%)" }}>
+                    {b.instrumento}
+                  </h4>
                   <Card>
                     <Table
                       className="corriente"

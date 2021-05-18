@@ -34,7 +34,13 @@ const Posicion = ({ match, comitenteId, posicion, loading }) => {
         let catTotal = 0;
         const papeles = posicion[disponibilidad][cat]
           .sort((a, b) =>
-            a.codigoCV !== b.codigoCV ? (a.codigoCV > b.codigoCV ? 1 : -1) : a.descripcion > b.descripcion ? 1 : -1
+            a.codigoCV !== b.codigoCV
+              ? a.codigoCV > b.codigoCV
+                ? 1
+                : -1
+              : a.descripcion > b.descripcion
+              ? 1
+              : -1
           )
           .map((row) => {
             catTotal += row.montoPesos;
@@ -48,7 +54,10 @@ const Posicion = ({ match, comitenteId, posicion, loading }) => {
                 { className: "text-right", content: row.precio.format(), order: row.precio },
                 {
                   className: "text-center",
-                  content: (new Date(row.fecha).getFullYear() > 1900 ? new Date(row.fecha) : new Date()).format(),
+                  content: (new Date(row.fecha).getFullYear() > 1900
+                    ? new Date(row.fecha)
+                    : new Date()
+                  ).format(),
                 },
                 {
                   className: "text-right",
@@ -82,7 +91,10 @@ const Posicion = ({ match, comitenteId, posicion, loading }) => {
         {
           className: "separator",
           cells: [
-            { colspan: 8, content: disponibilidad === "disp" ? "Cartera Disponible" : "Cartera No Disponible" },
+            {
+              colspan: 8,
+              content: disponibilidad === "disp" ? "Cartera Disponible" : "Cartera No Disponible",
+            },
             { className: "text-right", content: dispTotal.format() },
           ],
         },

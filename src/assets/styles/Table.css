@@ -219,6 +219,11 @@ tr.separator td {
   padding: 0 10px;
 }
 
+tr.separator.separator-moneda td {
+  background-color: hsl(220, 70%, 75%);
+  border-color: hsl(220, 70%, 75%);
+}
+
 tr.separator.main-separator td {
   background-color: hsl(220, 40%, 10%);
   border-color: hsl(220, 40%, 10%);

@@ -199,9 +199,20 @@ export const Table = React.memo(
         </thead>
         <tbody>
           {renderData.map((tr, i) => (
-            <tr className={tr.className || ""} onClick={tr.handleClick || function () {}} key={i}>
+            <tr
+              className={tr.className || ""}
+              style={tr.style}
+              onClick={tr.handleClick || function () {}}
+              key={i}
+            >
               {tr.cells.map((td, j) => (
-                <Cell className={td.className} title={td.title} style={td.style || {}} colspan={td.colspan} key={j}>
+                <Cell
+                  className={td.className}
+                  title={td.title}
+                  style={td.style || {}}
+                  colspan={td.colspan}
+                  key={j}
+                >
                   {td.content}
                 </Cell>
               ))}

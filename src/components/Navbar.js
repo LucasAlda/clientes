@@ -6,7 +6,7 @@ import "../assets/styles/Navbar.css";
 import authFetch from "../helpers/authFetch";
 
 const Navbar = ({ location, history, search, setSearch, user, setModalEspecies }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [comitente, setComitente] = useState("");
   const [especies, setEspecies] = useState([]);
   const section = location.pathname.split("/")[1] || "principal";

@@ -23,6 +23,7 @@ const App = () => {
   const [auth, setAuth] = useState(window.localStorage.getItem("token"));
   const [user, setUser] = useState({});
   const [modalEspecies, setModalEspecies] = useState({ show: false, action: "SHOW", data: {} });
+  console.log(process.env);
 
   useEffect(() => {
     if (auth) {
@@ -43,7 +44,11 @@ const App = () => {
         <Navbar search={search} setSearch={setSearch} user={user} setModalEspecies={setModalEspecies} />
       )}
       <Switch>
-        <Route exact path="/login" render={(props) => <Login {...props} setUser={setUser} setAuth={setAuth} />} />
+        <Route
+          exact
+          path="/login"
+          render={(props) => <Login {...props} setUser={setUser} setAuth={setAuth} />}
+        />
         {!auth && <Redirect to="/login" />}
         <Route path="/comitente/:comitente" render={(props) => <Comitente user={user} {...props} />} />
         <Route path="/proveedor/:comitente" render={(props) => <Proveedor user={user} {...props} />} />
