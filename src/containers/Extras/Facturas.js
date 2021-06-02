@@ -1,46 +1,39 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiFileText } from "react-icons/fi";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import { Table } from "../../components/Table";
-import Modal from "../Comitente/ModalDigitalizacion";
 import authFetch from "../../helpers/authFetch";
+import Modal from "../Proveedor/ModalFacturas";
 import { useToasts } from "react-toast-notifications";
-import Copy from "../../components/Copy";
 import { SelectInput } from "../../components/Input";
 
-const RecibosComprobantes = ({ match, user }) => {
-  const tablaRecComp = useRef(undefined);
+const Facturas = ({ match, user }) => {
   const { addToast } = useToasts();
   const [data, setData] = useState([]);
   const [modal, setModal] = useState({ show: false, data: {} });
   const [year, setYear] = useState(2021);
 
   useEffect(() => {
-    authFetch(`/extras/recibos-comprobantes-rest/${year}`)
+    authFetch(`/extras/facturas-rest/${year}`)
       .then((data) => setData(data))
       .catch((err) => {
         console.log(err);
-        addToast("Error al cargar recibos y comprobantes!", { appearance: "error" });
       });
-    //eslint-disable-next-line
   }, [year]);
 
   const handleUpload = (files) => {
     const file = files[0].src ? files[0].src.file : files[0].file.src.file;
-    const title = `img/REC_COMP/${modal.data.numcomitente}_${modal.data.Tipocomprobante}_${new Date(
-      modal.data.fechaconcertacion
-    ).formatDB("")}-${modal.data.nrocomprobante}`;
-
+    const title = `img/FAC/${modal.data.PROVEEDOR}_${modal.data.Punto_Vta}-${modal.data.Nro_Fac}`;
     const fileType = file.name.split(".")[file.name.split(".").length - 1];
     const formData = new FormData();
     formData.append("title", title);
     formData.append("fileType", fileType);
     formData.append("where", modal.data.where);
-    formData.append("cod", modal.data.cod);
+    formData.append("cod", modal.data.CodFacturaMov);
     formData.append("file", file);
-    authFetch("/comitente/rec-comp/upload", { method: "POST", body: formData })
-      .then((data) => authFetch(`/extras/recibos-comprobantes-rest/${year}`))
+    authFetch("/proveedor/facturas/upload", { method: "POST", body: formData })
+      .then((data) => authFetch(`/extras/facturas-rest/${year}`))
       .then((data) => setData(data))
       .catch((err) => {
         console.log(err);
@@ -51,25 +44,23 @@ const RecibosComprobantes = ({ match, user }) => {
 
   const dataTable = [];
 
-  data.forEach((row, i) => {
-    console.log(row);
+  data.forEach((row) => {
     dataTable.push({
       cells: [
-        { className: "text-center", style: { fontWeight: 700 }, content: "#" + (i + 1) },
-        { className: "text-center", style: { fontWeight: 700 }, content: row.numcomitente },
-        { className: "text-center", content: new Date(row.fechaconcertacion).format() },
-        { className: "text-center", content: row.Tipocomprobante },
+        { className: "text-center", content: new Date(row.FechaEmision).format() },
+        { className: "text-left", content: row.CodTpFacturaMov },
+        { className: "text-left", content: row.CodTpFactura },
+        { className: "text-center", content: row.Punto_Vta },
+        { className: "text-center", content: row.Nro_Fac },
         {
-          className: "text-left",
-          content: row.codmoneda === 2 ? "DOLAR MEP" : row.codmoneda === 4 ? "DOLAR CABLE" : "PESOS",
+          className: "text-right",
+          style: { paddingRight: 40 },
+          content: row.Importe_Total.format(),
+          order: row.Importe_Total,
         },
-        { className: "text-right", content: row.IMPORTE_TOTAL.format(), order: row.IMPORTE_TOTAL },
-        { className: "text-left", style: { paddingLeft: 30 }, content: row.nrocomprobante },
-        { className: "text-right", content: row.IMPORTE_PESOS.format(), order: row.IMPORTE_PESOS },
         {
           className: "text-left",
-          style: { paddingLeft: 30 },
-          content: <Acciones row={row} setModal={setModal} user={user} />,
+          content: <Acciones row={row} user={user} setModal={setModal} />,
         },
       ],
     });
@@ -100,40 +91,30 @@ const RecibosComprobantes = ({ match, user }) => {
         </div>
       </div>
       {dataTable?.length > 0 ? (
-        <>
-          <Card style={{ marginTop: 15 }}>
-            <Table
-              reference={tablaRecComp}
-              className="posicions"
-              columns={[
-                { className: "text-center", content: "#" },
-                { className: "text-center", content: "Comitente" },
-                { className: "text-center", content: "Fecha" },
-                { className: "text-center", content: "Tipo" },
-                { className: "text-left", content: "Cod. Moneda" },
-                { className: "text-right", content: "Importe Total" },
-                { className: "text-left", style: { paddingLeft: 30 }, content: "Comprobante" },
-                { className: "text-right", content: "Importe Pesos" },
-                { className: "text-left", style: { paddingLeft: 30 }, content: "Acciones" },
-              ]}
-              tableTotal
-              colTotals={[5, 7]}
-              data={dataTable}
-            />
-          </Card>
-          <Copy style={{ marginTop: 10 }} actions={true} reference={tablaRecComp} />
-        </>
+        <Card style={{ marginTop: 10 }}>
+          <Table
+            className="posicions"
+            columns={[
+              { className: "text-center", content: "Fecha Emisión" },
+              { className: "text-left", content: "Tipo Mov. Fac." },
+              { className: "text-left", content: "Cod. Tipo Fac." },
+              { className: "text-center", content: "Punto" },
+              { className: "text-center", content: "Nro Factura" },
+              { className: "text-right", content: "Importe Total", style: { paddingRight: 40 } },
+              { className: "text-left", content: "Acciones" },
+            ]}
+            data={dataTable}
+          />
+        </Card>
       ) : (
-        <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>
-          No tiene Recibos o comprobantes en {year}
-        </h4>
+        <h4 style={{ color: "#808080", textAlign: "center", marginTop: 40 }}>No tiene Facturas en {year}</h4>
       )}
-      <Modal modal={modal} setModal={setModal} title={"Subir Archivo"} handleSubmit={handleUpload} />
+      <Modal modal={modal} setModal={setModal} handleSubmit={handleUpload} title="SubirArchivo" />
     </>
   );
 };
 
-const Acciones = ({ row, setModal, user, handleDelete, handleMail }) => {
+const Acciones = ({ row, user, handleDelete, setModal, handleMail }) => {
   return (
     <>
       {row.esco ? (
@@ -184,4 +165,4 @@ const Acciones = ({ row, setModal, user, handleDelete, handleMail }) => {
   );
 };
 
-export default RecibosComprobantes;
+export default Facturas;

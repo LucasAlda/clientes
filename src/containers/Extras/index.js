@@ -4,6 +4,7 @@ import "../../assets/styles/Extras.css";
 import Card from "../../components/Card";
 import Tabs from "../../components/Tabs";
 import Archivos from "./Archivos";
+import Facturas from "./Facturas";
 import RecibosComprobantes from "./RecibosComprobantes";
 
 const Extras = ({ history, location, match, user }) => {
@@ -43,9 +44,9 @@ const Extras = ({ history, location, match, user }) => {
           <Route
             exact
             path={`${match.path}/recibos-comprobantes`}
-            render={(props) => <RecibosComprobantes user={user}>Hola</RecibosComprobantes>}
+            render={(props) => <RecibosComprobantes user={user} />}
           />
-          <Route exact path={`${match.path}/facturas`} render={(props) => <h4>Hola</h4>} />
+          <Route exact path={`${match.path}/facturas`} render={(props) => <Facturas user={user} />} />
           <Route exact path={`${match.path}/formularios`} render={(props) => <h4>Hola</h4>} />
         </Switch>
       </div>
