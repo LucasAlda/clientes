@@ -44,9 +44,11 @@ const Facturas = ({ match, user }) => {
 
   const dataTable = [];
 
-  data.forEach((row) => {
+  data.forEach((row, i) => {
     dataTable.push({
       cells: [
+        { className: "text-center", style: { fontWeight: 700 }, content: "#" + (i + 1) },
+        { className: "text-left", content: row.PROVEEDOR },
         { className: "text-center", content: new Date(row.FechaEmision).format() },
         { className: "text-left", content: row.CodTpFacturaMov },
         { className: "text-left", content: row.CodTpFactura },
@@ -95,6 +97,8 @@ const Facturas = ({ match, user }) => {
           <Table
             className="posicions"
             columns={[
+              { className: "text-center", content: "#" },
+              { className: "text-left", content: "Proveedor" },
               { className: "text-center", content: "Fecha Emisión" },
               { className: "text-left", content: "Tipo Mov. Fac." },
               { className: "text-left", content: "Cod. Tipo Fac." },
