@@ -52,10 +52,12 @@ const RecibosComprobantes = ({ match, user }) => {
 
   const dataTable = [];
 
-  data.forEach((row) => {
+  data.forEach((row, i) => {
     console.log(row);
     dataTable.push({
       cells: [
+        { className: "text-center", style: { fontWeight: 700 }, content: "#" + (i + 1) },
+        { className: "text-center", style: { fontWeight: 700 }, content: row.numcomitente },
         { className: "text-center", content: new Date(row.fechaconcertacion).format() },
         { className: "text-center", content: row.Tipocomprobante },
         {
@@ -105,6 +107,8 @@ const RecibosComprobantes = ({ match, user }) => {
               reference={tablaRecComp}
               className="posicions"
               columns={[
+                { className: "text-center", content: "#" },
+                { className: "text-center", content: "Comitente" },
                 { className: "text-center", content: "Fecha" },
                 { className: "text-center", content: "Tipo" },
                 { className: "text-left", content: "Cod. Moneda" },
@@ -114,7 +118,7 @@ const RecibosComprobantes = ({ match, user }) => {
                 { className: "text-left", style: { paddingLeft: 30 }, content: "Acciones" },
               ]}
               tableTotal
-              colTotals={[3, 5]}
+              colTotals={[5, 7]}
               data={dataTable}
             />
           </Card>
