@@ -6,6 +6,7 @@ import Tabs from "../../components/Tabs";
 import Archivos from "./Archivos";
 import Facturas from "./Facturas";
 import RecibosComprobantes from "./RecibosComprobantes";
+import Transferencias from "./Transferencias";
 
 const Extras = ({ history, location, match, user }) => {
   const activeTab = location.pathname.split("/")[2] || "archivos";
@@ -34,6 +35,7 @@ const Extras = ({ history, location, match, user }) => {
               { label: "Archivos", value: "archivos" },
               { label: "Rec. Comp.", value: "recibos-comprobantes" },
               { label: "Facturas", value: "facturas" },
+              { label: "Transferencias", value: "transferencias" },
               { label: "Formularios", value: "formularios" },
             ]}
           />
@@ -47,6 +49,11 @@ const Extras = ({ history, location, match, user }) => {
             render={(props) => <RecibosComprobantes user={user} />}
           />
           <Route exact path={`${match.path}/facturas`} render={(props) => <Facturas user={user} />} />
+          <Route
+            exact
+            path={`${match.path}/transferencias`}
+            render={(props) => <Transferencias user={user} />}
+          />
           <Route exact path={`${match.path}/formularios`} render={(props) => <h4>Hola</h4>} />
         </Switch>
       </div>
